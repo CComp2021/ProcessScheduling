@@ -1,13 +1,15 @@
-package com.github.rok;
+package com.github.rok.panel;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.github.rok.Utils;
 import com.github.rok.os.CPU;
 import com.github.rok.os.Memory;
 import com.github.rok.os.Process;
 import org.knowm.xchart.*;
+import org.knowm.xchart.style.Styler;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -23,8 +25,8 @@ import java.util.stream.Collectors;
  */
 public class MainPanel {
 
-	private static final int WINDOW_WIDTH = 800;
-	private static final int WINDOW_HEIGHT = 600;
+	private static final int WINDOW_WIDTH = 900;
+	private static final int WINDOW_HEIGHT = 500;
 
 	private Memory memory;
 	private CPU cpu;
@@ -56,25 +58,21 @@ public class MainPanel {
 
 			if (getMemory().isEmpty())
 				clearCPUChart();
-
 		});
 
-		memoryChart = new CategoryChartBuilder().width(WINDOW_WIDTH / 2).height(WINDOW_HEIGHT)
-				                       .title("MEMÓRIA").build();
-		memoryChart.getStyler().setLegendVisible(true);
+		memoryChart = new CategoryChartBuilder().width(WINDOW_WIDTH/2).height(WINDOW_HEIGHT).title("MEMÓRIA").build();
 
 		// Configurações do gráfico de memória
 		Utils.addDefaultStyle(memoryChart);
+		memoryChart.getStyler().setLegendVisible(true);
 		memoryChart.getStyler().setXAxisTickLabelsColor(Color.decode("#ffffff"));
 		memoryChart.getStyler().setYAxisTickLabelsColor(Color.decode("#ffffff"));
 		memoryChart.getStyler().setPlotGridLinesColor(Color.decode("#393939"));
-		memoryChart.getStyler().setSeriesColors(new Color[]{Color.decode("#0a84ff"), Color.decode("#ffcc00")});
-
-
 		memoryChart.getStyler().setYAxisMax(10.0);
 		memoryChart.getStyler().setAvailableSpaceFill(.50);
 		memoryChart.getStyler().setShowStackSum(true);
 		memoryChart.getStyler().setStacked(true);
+		memoryChart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
 
 		List<Integer> processIds = memory.processList.stream()
 				                          .map(Process::getId)
@@ -88,15 +86,18 @@ public class MainPanel {
 				                                               .map(Process::getProcessTime)
 				                                               .collect(Collectors.toList()));
 
-		// Gráfico de linha em tempo real
-		cpuChart = new PieChartBuilder().title("CPU").build();
+		cpuChart = new PieChartBuilder().width(WINDOW_WIDTH/2).height(WINDOW_HEIGHT).title("CPU").build();
+
+		// Configurações do gráfico CPU
+		Utils.addDefaultStyle(cpuChart);
+		cpuChart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNE);
+
 		cpuChart.addSeries("Em espera", 0);
 		cpuChart.addSeries("Computado", 0);
-		Utils.addDefaultStyle(cpuChart);
-		cpuChart.getStyler().setSeriesColors(new Color[]{Color.decode("#0a84ff"), Color.decode("#ffcc00")});
 
-		// Criação do JFrame
+		// Cria o JFrame
 		JFrame frame = new JFrame("Escalonamento De Processos");
+		frame.setResizable(false);
 
 		frame.setLayout(new java.awt.GridLayout(1, 3));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -109,8 +110,6 @@ public class MainPanel {
 		// Adiciona os gráficos ao JFrame pt 1
 		memoryChartPanel = new XChartPanel<>(memoryChart);
 		cpuChartPanel = new XChartPanel<>(cpuChart);
-
-
 
 		// Adiciona o botão de atualização
 		JButton updateButton = new JButton("Add Random");
@@ -198,7 +197,13 @@ public class MainPanel {
 			cpuChart.updatePieSeries("Computado", cpu.getRunningProcess().getProcessTime());
 		} else {
 			// TODO: TESTANDO OUTROS METODOS APAGAR DEPOIS
-			Process next = memory.getProcess(lastProcess.getId()+1) == null ? memory.getFirstProcess() : memory.getProcess(lastProcess.getId()+1);
+
+			int i = lastProcess.getId() + 1;
+			while (memory.getProcess(i) == null && i < lastProcess.getId()+9) {
+				i++;
+			}
+			Process next = memory.getProcess(i) == null ? memory.getFirstProcess() : memory.getProcess(i);
+
 			cpu.setRunningProcess(next, 2);
 			updateMemoryChart();
 		}

@@ -1,6 +1,5 @@
 package com.github.rok.os;
 
-import com.github.rok.MainPanel;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -26,7 +25,7 @@ public class CPU {
 	private void process() {
 		while (true) {
 			try {
-				Thread.sleep(processSpeed * 100); // processo acelerado
+				Thread.sleep(10); // processo acelerado
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -34,8 +33,8 @@ public class CPU {
 			if (paused) continue;
 
 			if (runningProcess == null) continue;
-			runningProcess.addProcessTime((double) processSpeed /10);
-			timeProcessing -= (double) processSpeed/10;
+			runningProcess.addProcessTime((double) processSpeed /100);
+			timeProcessing -= (double) processSpeed/100;
 
 			if (timeProcessing <= 0 || runningProcess.getWaitingTime() <= 0) {
 				endProcess();
@@ -54,6 +53,10 @@ public class CPU {
 		this.timeProcessing = runningProcess != null ? runningProcess.getProcessTime() : 0;
 	}
 
+	/**
+	 * @param runningProcess Processo que a ser executado
+	 * @param timeProcessing Tempo processando (em segundos)
+	 */
 	public void setRunningProcess(Process runningProcess, double timeProcessing) {
 		this.runningProcess = runningProcess;
 		this.timeProcessing = timeProcessing;

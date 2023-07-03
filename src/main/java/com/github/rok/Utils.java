@@ -29,5 +29,6 @@ public class Utils {
 		chart.getStyler().setChartTitleBoxBackgroundColor(Color.decode("#393939"));
 		chart.getStyler().setLegendFont(new Font("sans-serif", Font.PLAIN, 12));
 		chart.getStyler().setChartFontColor(Color.decode("#ffffff"));
+		chart.getStyler().setSeriesColors(new Color[]{Color.decode("#0a84ff"), Color.decode("#ffcc00")});
 	}
 }
