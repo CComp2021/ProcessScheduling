@@ -10,13 +10,14 @@ import java.util.function.Consumer;
 public class CPU {
 
 	private Process runningProcess;
+	private double alreadyProcessed;
 	private long processSpeed; // processo divido por 10 ( default 2 = 0.2)
 	private double timeProcessing;
 	private Consumer<Process> consumer;
 
 	private boolean paused = false;
 
-	public CPU( Consumer<Process> consumer) {
+	public CPU(Consumer<Process> consumer) {
 		this.processSpeed = 2;
 		new Thread(this::process).start();
 		this.consumer = consumer;
@@ -49,8 +50,8 @@ public class CPU {
 	}
 
 	public void setRunningProcess(@Nullable Process runningProcess) {
-		this.runningProcess = runningProcess;
-		this.timeProcessing = runningProcess != null ? runningProcess.getProcessTime() : 0;
+		double processTime = runningProcess == null ? 0 : runningProcess.getProcessTime();
+		setRunningProcess(runningProcess, processTime);
 	}
 
 	/**
@@ -58,7 +59,14 @@ public class CPU {
 	 * @param timeProcessing Tempo processando (em segundos)
 	 */
 	public void setRunningProcess(Process runningProcess, double timeProcessing) {
+		if (runningProcess == null) {
+			this.runningProcess = null;
+			this.timeProcessing = 0;
+			this.alreadyProcessed = 0;
+			return;
+		}
 		this.runningProcess = runningProcess;
+		this.alreadyProcessed = runningProcess.getProcessTime();
 		this.timeProcessing = timeProcessing;
 	}
 
@@ -69,6 +77,10 @@ public class CPU {
 
 	public double getTimeProcessing() {
 		return timeProcessing;
+	}
+
+	public double getAlreadyProcessed() {
+		return alreadyProcessed;
 	}
 
 	public void pause() {

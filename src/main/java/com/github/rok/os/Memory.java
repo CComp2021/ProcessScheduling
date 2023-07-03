@@ -1,5 +1,6 @@
 package com.github.rok.os;
 
+import com.github.rok.Utils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Memory {
 	}
 
 	public void addRandomProcessToMemory() {
-		addProcessToMemory(Math.random() * 10 + 1);
+		addProcessToMemory(Utils.generateRandomNumber(1,10));
 	}
 
 	public int getNextEmpty() {

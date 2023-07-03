@@ -9,6 +9,7 @@ import com.github.rok.os.CPU;
 import com.github.rok.os.Memory;
 import com.github.rok.os.Process;
 import org.knowm.xchart.*;
+import org.knowm.xchart.style.AxesChartStyler;
 import org.knowm.xchart.style.Styler;
 
 import javax.swing.*;
@@ -64,14 +65,17 @@ public class MainPanel {
 
 		// Configurações do gráfico de memória
 		Utils.addDefaultStyle(memoryChart);
-		memoryChart.getStyler().setLegendVisible(true);
-		memoryChart.getStyler().setXAxisTickLabelsColor(Color.decode("#ffffff"));
-		memoryChart.getStyler().setYAxisTickLabelsColor(Color.decode("#ffffff"));
+		memoryChart.getStyler().setAxisTickLabelsColor(Color.decode("#ffffff"));
 		memoryChart.getStyler().setPlotGridLinesColor(Color.decode("#393939"));
 		memoryChart.getStyler().setYAxisMax(10.0);
 		memoryChart.getStyler().setAvailableSpaceFill(.50);
 		memoryChart.getStyler().setShowStackSum(true);
+		memoryChart.getStyler().setAxisTicksLineVisible(false);
+		memoryChart.getStyler().setAxisTicksMarksVisible(false);
+		memoryChart.getStyler().setYAxisLabelAlignment(AxesChartStyler.TextAlignment.Right);
+		memoryChart.getStyler().setAxisTickPadding(0);
 		memoryChart.getStyler().setStacked(true);
+		memoryChart.getStyler().setSeriesColors(new Color[]{Color.decode("#0a84ff"), Color.decode("#ffcc00")});
 		memoryChart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
 
 		List<Integer> processIds = memory.processList.stream()
@@ -91,72 +95,20 @@ public class MainPanel {
 		// Configurações do gráfico CPU
 		Utils.addDefaultStyle(cpuChart);
 		cpuChart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNE);
+		cpuChart.getStyler().setSeriesColors(new Color[]{Color.decode("#0a84ff"), Color.decode("#ff9f0a"),Color.decode("#ffcc00")});
+		cpuChart.getStyler().setLabelsFont(new Font("sans-serif", Font.BOLD, 15));
 
 		cpuChart.addSeries("Em espera", 0);
+		cpuChart.addSeries("Processando...", 0);
 		cpuChart.addSeries("Computado", 0);
 
+
 		// Cria o JFrame
-		JFrame frame = new JFrame("Escalonamento De Processos");
-		frame.setResizable(false);
-
-		frame.setLayout(new java.awt.GridLayout(1, 3));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Painel para posicionar os elementos
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		panel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		// Adiciona os gráficos ao JFrame pt 1
 		memoryChartPanel = new XChartPanel<>(memoryChart);
 		cpuChartPanel = new XChartPanel<>(cpuChart);
-
-		// Adiciona o botão de atualização
-		JButton updateButton = new JButton("Add Random");
-		updateButton.setPreferredSize(new Dimension(120, 20));
-		updateButton.addActionListener(e -> addRandomProcessToMemory());
-
-		JButton removeFirstBtn = new JButton("Remove First");
-		removeFirstBtn.setPreferredSize(new Dimension(120, 40));
-		removeFirstBtn.addActionListener(e -> {
-			getMemory().removeProcess(getMemory().getFirstProcess());
-			updateMemoryChart();
-		});
-		JButton removeLastBtn = new JButton("Remove Last");
-		removeLastBtn.setPreferredSize(new Dimension(120, 40));
-		removeLastBtn.addActionListener(e -> {
-			getMemory().removeProcess(getMemory().getLastProcess());
-			updateMemoryChart();
-		});
-		JButton startStop = new JButton("Start/Stop");
-		startStop.setPreferredSize(new Dimension(140, 50));
-		startStop.addActionListener(e -> {
-			if (!cpu.isRunning()) {
-				cpu.setRunningProcess(memory.getFirstProcess(), 2);
-				updateMemoryChart();
-				return;
-			}
-			cpu.pause();
-
-		});
+		JFrame frame = new Frame(this, memoryChartPanel, cpuChartPanel).get();
 
 
-
-
-		panel.add(Box.createHorizontalGlue());
-		panel.add(updateButton);
-		panel.add(removeFirstBtn);
-		panel.add(removeLastBtn);
-		panel.add(startStop);
-		panel.add(Box.createHorizontalGlue());
-
-		// Adiciona os gráficos ao JFrame pt 2
-		frame.add(memoryChartPanel);
-		frame.add(panel);
-		frame.add(cpuChartPanel);
-
-		frame.pack();
-		frame.setVisible(true);
 	}
 
 	public void addRandomProcessToMemory() {
@@ -184,6 +136,7 @@ public class MainPanel {
 
 	public void clearCPUChart() {
 		cpuChart.updatePieSeries("Em espera", 0);
+		cpuChart.updatePieSeries("Processando...", 0);
 		cpuChart.updatePieSeries("Computado", 0);
 		cpuChart.setTitle("CPU");
 	}
@@ -194,7 +147,8 @@ public class MainPanel {
 			lastProcess = cpu.getRunningProcess();
 			cpuChart.setTitle("CPU - Processo " + cpu.getRunningProcess().getId());
 			cpuChart.updatePieSeries("Em espera", cpu.getRunningProcess().getWaitingTime());
-			cpuChart.updatePieSeries("Computado", cpu.getRunningProcess().getProcessTime());
+			cpuChart.updatePieSeries("Processando...", cpu.getRunningProcess().getProcessTime() - cpu.getAlreadyProcessed());
+			cpuChart.updatePieSeries("Computado", cpu.getAlreadyProcessed());
 		} else {
 			// TODO: TESTANDO OUTROS METODOS APAGAR DEPOIS
 
@@ -210,6 +164,10 @@ public class MainPanel {
 
 		cpuChartPanel.revalidate();
 		cpuChartPanel.repaint();
+	}
+
+	public CPU getCpu() {
+		return cpu;
 	}
 
 	public Memory getMemory() {

@@ -26,9 +26,15 @@ public class Utils {
 		chart.getStyler().setLegendBackgroundColor(Color.decode("#393939"));
 		chart.getStyler().setChartTitleFont(new Font("sans-serif", Font.PLAIN, 30));
 		chart.getStyler().setChartTitleBoxVisible(true);
+		chart.getStyler().setLegendVisible(true);
 		chart.getStyler().setChartTitleBoxBackgroundColor(Color.decode("#393939"));
 		chart.getStyler().setLegendFont(new Font("sans-serif", Font.PLAIN, 12));
 		chart.getStyler().setChartFontColor(Color.decode("#ffffff"));
-		chart.getStyler().setSeriesColors(new Color[]{Color.decode("#0a84ff"), Color.decode("#ffcc00")});
+		chart.getStyler().setSeriesColors(new Color[]{Color.decode("#0a84ff"), Color.decode("#ffcc00"), Color.decode("#ff9f0a")});
+	}
+
+	public static double generateRandomNumber(double min, double max) {
+		double randomNumber = min + (max - min) * Math.random();
+		return randomNumber;
 	}
 }
