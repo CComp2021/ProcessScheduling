@@ -1,11 +1,16 @@
 package com.github.rok;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.github.rok.os.CPU;
 import com.github.rok.os.Memory;
 import com.github.rok.os.Process;
 import org.knowm.xchart.*;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,13 +37,39 @@ public class MainPanel {
 
 	public MainPanel() {
 
+		// Colocando o look and feel
+		try {
+			UIManager.setLookAndFeel( new FlatMacDarkLaf() );
+		} catch( Exception ex ) {
+			System.err.println( "Failed to initialize LaF" );
+		}
+
 		//Cria os modulos do sistema
 		this.memory = new Memory();
-		this.cpu = new CPU(this);
+		this.cpu = new CPU( process -> {
+			if (process == null) {
+				updateCPUChart();
+				return;
+			}
+			if (process.getWaitingTime() <= 0)
+				getMemory().removeProcess(process);
+
+			if (getMemory().isEmpty())
+				clearCPUChart();
+
+		});
 
 		memoryChart = new CategoryChartBuilder().width(WINDOW_WIDTH / 2).height(WINDOW_HEIGHT)
-				                       .title("Memória").build();
+				                       .title("MEMÓRIA").build();
 		memoryChart.getStyler().setLegendVisible(true);
+
+		// Configurações do gráfico de memória
+		Utils.addDefaultStyle(memoryChart);
+		memoryChart.getStyler().setXAxisTickLabelsColor(Color.decode("#ffffff"));
+		memoryChart.getStyler().setYAxisTickLabelsColor(Color.decode("#ffffff"));
+		memoryChart.getStyler().setPlotGridLinesColor(Color.decode("#393939"));
+		memoryChart.getStyler().setSeriesColors(new Color[]{Color.decode("#0a84ff"), Color.decode("#ffcc00")});
+
 
 		memoryChart.getStyler().setYAxisMax(10.0);
 		memoryChart.getStyler().setAvailableSpaceFill(.50);
@@ -61,14 +92,14 @@ public class MainPanel {
 		cpuChart = new PieChartBuilder().title("CPU").build();
 		cpuChart.addSeries("Em espera", 0);
 		cpuChart.addSeries("Computado", 0);
+		Utils.addDefaultStyle(cpuChart);
+		cpuChart.getStyler().setSeriesColors(new Color[]{Color.decode("#0a84ff"), Color.decode("#ffcc00")});
 
 		// Criação do JFrame
 		JFrame frame = new JFrame("Escalonamento De Processos");
+
 		frame.setLayout(new java.awt.GridLayout(1, 3));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Definir a cor de fundo base do JFrame
-		frame.getContentPane().setBackground(Color.decode("#191919"));
 
 		// Painel para posicionar os elementos
 		JPanel panel = new JPanel();
@@ -98,11 +129,16 @@ public class MainPanel {
 			getMemory().removeProcess(getMemory().getLastProcess());
 			updateMemoryChart();
 		});
-		JButton addToCPU = new JButton("To CPU");
-		addToCPU.setPreferredSize(new Dimension(120, 40));
-		addToCPU.addActionListener(e -> {
-			cpu.setRunningProcess(memory.getFirstProcess(), 2);
-			updateMemoryChart();
+		JButton startStop = new JButton("Start/Stop");
+		startStop.setPreferredSize(new Dimension(140, 50));
+		startStop.addActionListener(e -> {
+			if (!cpu.isRunning()) {
+				cpu.setRunningProcess(memory.getFirstProcess(), 2);
+				updateMemoryChart();
+				return;
+			}
+			cpu.pause();
+
 		});
 
 
@@ -112,7 +148,7 @@ public class MainPanel {
 		panel.add(updateButton);
 		panel.add(removeFirstBtn);
 		panel.add(removeLastBtn);
-		panel.add(addToCPU);
+		panel.add(startStop);
 		panel.add(Box.createHorizontalGlue());
 
 		// Adiciona os gráficos ao JFrame pt 2
