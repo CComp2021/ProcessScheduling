@@ -1,4 +1,4 @@
-package com.github.rok;
+package com.github.rok.utils;
 
 import org.knowm.xchart.internal.chartpart.Chart;
 

@@ -1,10 +1,7 @@
 package com.github.rok.panel;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.github.rok.Utils;
+import com.github.rok.utils.Utils;
 import com.github.rok.os.CPU;
 import com.github.rok.os.Memory;
 import com.github.rok.os.Process;
@@ -13,11 +10,7 @@ import org.knowm.xchart.style.AxesChartStyler;
 import org.knowm.xchart.style.Styler;
 
 import javax.swing.*;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +31,8 @@ public class MainPanel {
 	private XChartPanel<CategoryChart> memoryChartPanel;
 	private XChartPanel<PieChart> cpuChartPanel;
 
+	private Frame frame;
+
 	public MainPanel() {
 
 		// Colocando o look and feel
@@ -48,20 +43,27 @@ public class MainPanel {
 		}
 
 		//Cria os modulos do sistema
-		this.memory = new Memory();
+		this.memory = new Memory( nextGen -> {
+			if (nextGen <= 0) {
+				updateMemoryChart();
+			}
+				updateMemoryBar(100-(int) (nextGen/(memory.getGenerationSpeed()/100)));
+		});
 		this.cpu = new CPU( process -> {
 			if (process == null) {
+				updateCPUBar(100-(int) (cpu.getTimeProcessing()*100/cpu.getProcessSpeed()));
 				updateCPUChart();
 				return;
 			}
 			if (process.getWaitingTime() <= 0)
 				getMemory().removeProcess(process);
+			updateMemoryChart();
 
 			if (getMemory().isEmpty())
 				clearCPUChart();
 		});
 
-		memoryChart = new CategoryChartBuilder().width(WINDOW_WIDTH/2).height(WINDOW_HEIGHT).title("MEMÓRIA").build();
+		memoryChart = new CategoryChartBuilder().width(WINDOW_WIDTH/2).height(WINDOW_HEIGHT).title("MEMORY").build();
 
 		// Configurações do gráfico de memória
 		Utils.addDefaultStyle(memoryChart);
@@ -106,14 +108,15 @@ public class MainPanel {
 		// Cria o JFrame
 		memoryChartPanel = new XChartPanel<>(memoryChart);
 		cpuChartPanel = new XChartPanel<>(cpuChart);
-		JFrame frame = new Frame(this, memoryChartPanel, cpuChartPanel).get();
-
+		frame = new Frame(this, memoryChartPanel, cpuChartPanel, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	}
 
-	public void addRandomProcessToMemory() {
-		memory.addRandomProcessToMemory();
-		updateMemoryChart();
+	private void updateMemoryBar(int value) {
+		frame.updateMemoryBar(value);
+	}
+	private void updateCPUBar(int value) {
+		frame.updateCpuBar(value);
 	}
 
 	// Toda atualização na lista de processos, esse método deve ser chamado para atualizar o gráfico

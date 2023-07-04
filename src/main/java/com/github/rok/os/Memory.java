@@ -1,9 +1,10 @@
 package com.github.rok.os;
 
-import com.github.rok.Utils;
+import com.github.rok.utils.Utils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 /*
  * @author Rok, Pedro Lucas N M Machado created on 03/07/2023
@@ -12,13 +13,38 @@ public class Memory {
 
 	public ArrayList<Process> processList = new ArrayList<>(10);
 	// Um placeholder para preencher o gráfico
-	private Process nullProcess = new Process(0, 0.0001);
+	private final Process nullProcess = new Process(0, 0.0001);
+
+	private double generationSpeed = 300;
+	private double nextToGenerate = 0;
+	private boolean paused = true;
+	private Consumer<Double> consumer;
 
 	int lastId = 0;
 
-	public Memory() {
+	public Memory(Consumer<Double> consumer) {
+		new Thread(this::generate).start();
 		for (int i = 0; i < 10; i++) {
 			processList.add(nullProcess);
+		}
+		this.consumer = consumer;
+	}
+
+	public void generate() {
+		while (true) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if (paused) continue;
+			nextToGenerate -= 1;
+			consumer.accept(nextToGenerate);
+			if (nextToGenerate <= 0) {
+				addRandomProcessToMemory();
+				consumer.accept(nextToGenerate);
+				nextToGenerate = generationSpeed;
+			}
 		}
 	}
 
@@ -99,5 +125,14 @@ public class Memory {
 				return true;
 		}
 		return false;
+	}
+
+	public double getGenerationSpeed() {
+		return generationSpeed;
+	}
+
+	public boolean pause() {
+		paused = !paused;
+		return paused;
 	}
 }

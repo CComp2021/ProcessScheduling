@@ -13,6 +13,11 @@ public class Process {
 		this.processTime = 0;
 		this.waitingTime = waitingTime;
 	}
+	public Process(int id, double waitingTime, double processTime) {
+		this.id = id;
+		this.processTime = processTime;
+		this.waitingTime = waitingTime;
+	}
 
 	public int getId() {
 		return id;
@@ -29,5 +34,17 @@ public class Process {
 
 	public double getWaitingTime() {
 		return waitingTime;
+	}
+
+	// Apenas para não ocorrer bug de desincronização na visualização, mas idealmente é como se fosse o mesmo processo que está na memória
+	@Override
+	protected Process clone(){
+		return new Process(id, waitingTime, processTime);
+	}
+
+	protected void consume(Process process){
+		this.id = process.id;
+		this.processTime = process.processTime;
+		this.waitingTime = process.waitingTime;
 	}
 }
