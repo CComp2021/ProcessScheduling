@@ -3,6 +3,7 @@ package com.github.rok.interfaces;
 import com.github.rok.os.interfaces.ICPU;
 import com.github.rok.os.Process;
 import com.github.rok.os.interfaces.IMemory;
+import org.jetbrains.annotations.Nullable;
 
 /*
  * @author Rok, Pedro Lucas N M Machado created on 05/07/2023
@@ -37,4 +38,32 @@ public interface IMainController {
 	 * @return A instância ICPU usada para executar processos no sistema.
 	 */
 	ICPU getICPU();
+
+	/**
+	 * Propiedade especifica de algoritmos.
+	 *
+	 * @return O tempo de processamento que o processo vai ficar na CPU.
+	 */
+	double getTimeOnCpu();
+
+	/**
+	 * Propiedade especifica de algoritmos.
+	 *
+	 * @return O valor maximo de prioridade que o processo pode ter.
+	 */
+	int getPriorMax();
+
+	/**
+	 * Propiedade especifica de algoritmos.
+	 *
+	 * @return O valor minimo de prioridade que o processo pode ter.
+	 */
+	int getPriorMin();
+
+	/**
+	 * Propiedade especifica de algoritmos.
+	 *
+	 * @return O ultimo processo que foi executado. Caso finalizado será null
+	 */
+	Process getLastProcess();
 }

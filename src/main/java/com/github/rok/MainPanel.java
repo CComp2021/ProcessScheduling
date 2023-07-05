@@ -8,6 +8,7 @@ import com.github.rok.os.interfaces.IMemory;
 import com.github.rok.panel.ChartsFrame;
 import com.github.rok.panel.Frame;
 import com.github.rok.utils.Utils;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
@@ -18,6 +19,15 @@ public class MainPanel implements IController, IMainController {
 
 	private static final int WINDOW_WIDTH = 900;
 	private static final int WINDOW_HEIGHT = 500;
+
+	// Properiedades de Algoritmos
+	private double processOnCPU;
+	private int priorMax;
+	private int priorMin;
+
+	// Counter
+	private int minutes;
+	private int seconds;
 
 	private Memory memory;
 	private CPU cpu;
@@ -67,7 +77,7 @@ public class MainPanel implements IController, IMainController {
 		memory.clearMemory();
 		if (running) {
 			memory.addRandomProcessToMemory();
-			counter.setCounter(frame.getComponentInt("simulation_min"), frame.getComponentInt("simulation_sec"));
+			counter.setCounter(minutes, seconds);
 		}
 		cpu.endProcess();
 		cpu.pause(!running);
@@ -98,6 +108,15 @@ public class MainPanel implements IController, IMainController {
 		cpu.setScalingDelay(frame.getComponentDouble("scaling_delay"));
 		cpu.setProcessSpeed(frame.getComponentDouble("cpu_speed"));
 		algorithm = Main.getAlgorithm((String) ((JComboBox<?>) frame.getComponent("algorithm")).getSelectedItem());
+
+		// Counter
+		minutes = frame.getComponentInt("simulation_min");
+		seconds = frame.getComponentInt("simulation_sec");
+
+		// Properties
+		processOnCPU = frame.getComponentDouble("cpu_running_time");
+		priorMax = frame.getComponentInt("prior_max");
+		priorMin = frame.getComponentInt("prior_min");
 	}
 
 	private void updateMemoryBar(int value) {
@@ -218,5 +237,25 @@ public class MainPanel implements IController, IMainController {
 	@Override
 	public ICPU getICPU() {
 		return cpu;
+	}
+
+	@Override
+	public double getTimeOnCpu() {
+		return processOnCPU;
+	}
+
+	@Override
+	public int getPriorMax() {
+		return priorMax;
+	}
+
+	@Override
+	public int getPriorMin() {
+		return priorMin;
+	}
+
+	@Override
+	public Process getLastProcess() {
+		return lastProcess;
 	}
 }

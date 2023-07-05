@@ -46,7 +46,7 @@ public class CPU implements ICPU {
 			if (paused) continue;
 
 			if (runningProcess == null) continue;
-			runningProcess.addProcessTime((double) processSpeed / 100);
+			runningProcess.addProcessTime(processSpeed / 100);
 			if (timeProcessing > 0)
 				timeProcessing -= 0.01;
 

@@ -43,7 +43,7 @@ public class PropertiesControlFrame {
 		panel.add(processSelectPanel, gbcProcess);
 
 		Utils.addSeparator(panel, (gridy += 1), main.getWindowWidth()); // TAMANHO E VELOCIDADE DO PROCESSO
-		frame.addComponentToList("algorithym_properties", Utils.addSubTitle(panel, (gridy += 1), "Propriedades de Aloritmos"));
+		frame.addComponentToList("algorithym_properties", Utils.addSubTitle(panel, (gridy += 1), "Propriedades de Algoritmos"));
 		JPanel algorithymSelectPanel = new JPanel();
 		addAlgorithmProperties(algorithymSelectPanel);
 		GridBagConstraints gbcAlgorithym = new GridBagConstraints();
@@ -136,7 +136,7 @@ public class PropertiesControlFrame {
 	}
 
 	public void addAlgorithmProperties(JPanel panel) {
-		JSpinner cpuRunningTime = Utils.createSpinner(5, 1, 99, 1);
+		JSpinner cpuRunningTime = Utils.createCustomSpinner(5, 1, 99.9, 0.1);
 		frame.addComponentToList("cpu_running_time", cpuRunningTime);
 		JSpinner processMin = Utils.createSpinner(1, 1, 98, 1);
 		frame.addComponentToList("prior_min", processMin);
