@@ -2,7 +2,7 @@ package com.github.rok;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.github.rok.algorithm.AlgorithmFIFO;
-import com.github.rok.algorithm.AlgorithmInterface;
+import com.github.rok.interfaces.AlgorithmInterface;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -16,9 +16,7 @@ public class Main {
 	private static MainPanel mainPanel;
 	private static final HashMap<String, AlgorithmInterface> algorithms = new HashMap<>();
 
-
 	public static void main(String[] args) {
-		// TODO: Reorganize this code
 		try {
 			UIManager.setLookAndFeel(new FlatMacDarkLaf());
 		} catch (Exception ex) {
@@ -42,6 +40,7 @@ public class Main {
 	public static List<String> getAlgorithmsNameList() {
 		return List.copyOf(algorithms.keySet());
 	}
+
 	public static MainPanel getPanel() {
 		return mainPanel;
 	}

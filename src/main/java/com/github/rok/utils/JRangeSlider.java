@@ -30,14 +30,12 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
 
 
-
 /**
  * JRangeSlider. This class implements slider with two values. Second value is
  * equals to first value plus extent, so I just reused BoundedRangeModel.
  * JRangeSlider will look correct on all platforms (using appropriate SliderUI).
  *
  * @author andronix
- *
  */
 public class JRangeSlider extends JPanel {
 

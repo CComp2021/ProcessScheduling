@@ -18,38 +18,39 @@ public class PropertiesControlFrame {
 	public PropertiesControlFrame(JPanel panel, Frame frame, MainPanel main, int gridy) {
 		this.frame = frame;
 		this.main = main;
-		Utils.addSeparator(panel, (gridy+=1), main.getWindowWidth()); // ALGORITMO & TEMPO DE SIMULAÇÃO
-		frame.addComponentToList("algorithm_title", Utils.addSubTitle(panel, (gridy+=1), "Algoritmo & Tempo de Simulação"));
+		Utils.addSeparator(panel, (gridy += 1), main.getWindowWidth()); // ALGORITMO & TEMPO DE SIMULAÇÃO
+		frame.addComponentToList("algorithm_title", Utils.addSubTitle(panel, (gridy += 1), "Algoritmo & Tempo de Simulação"));
 		JPanel selectPanel = new JPanel();
 		addAlgoritymTime(selectPanel);
 		GridBagConstraints gbcViewList = new GridBagConstraints();
-		gbcViewList.gridy = (gridy+=1);
+		gbcViewList.gridy = (gridy += 1);
 		panel.add(selectPanel, gbcViewList);
 
-		Utils.addSeparator(panel, (gridy+=1), main.getWindowWidth()); // TAMANHO E VELOCIDADE DO PROCESSO
-		frame.addComponentToList("cpu_title", Utils.addSubTitle(panel, (gridy+=1), "Propriedades da CPU"));
+		Utils.addSeparator(panel, (gridy += 1), main.getWindowWidth()); // TAMANHO E VELOCIDADE DO PROCESSO
+		frame.addComponentToList("cpu_title", Utils.addSubTitle(panel, (gridy += 1), "Propriedades da CPU"));
 		JPanel cpuSelectPanel = new JPanel();
 		addCPUProperties(cpuSelectPanel);
 		GridBagConstraints gbcCPU = new GridBagConstraints();
-		gbcCPU.gridy = (gridy+=1);
+		gbcCPU.gridy = (gridy += 1);
 		panel.add(cpuSelectPanel, gbcCPU);
 
-		Utils.addSeparator(panel, (gridy+=1), main.getWindowWidth()); // TAMANHO E VELOCIDADE DO PROCESSO
-		frame.addComponentToList("process_title", Utils.addSubTitle(panel, (gridy+=1), "Tamanho & Velocidade do Processo"));
+		Utils.addSeparator(panel, (gridy += 1), main.getWindowWidth()); // TAMANHO E VELOCIDADE DO PROCESSO
+		frame.addComponentToList("process_title", Utils.addSubTitle(panel, (gridy += 1), "Tamanho & Velocidade do Processo"));
 		JPanel processSelectPanel = new JPanel();
 		addProcessProperties(processSelectPanel);
 		GridBagConstraints gbcProcess = new GridBagConstraints();
-		gbcProcess.gridy = (gridy+=1);
+		gbcProcess.gridy = (gridy += 1);
 		panel.add(processSelectPanel, gbcProcess);
 
-		Utils.addSeparator(panel, (gridy+=1), main.getWindowWidth()); // TAMANHO E VELOCIDADE DO PROCESSO
-		frame.addComponentToList("algorithym_properties", Utils.addSubTitle(panel, (gridy+=1), "Propriedades de Aloritmos"));
+		Utils.addSeparator(panel, (gridy += 1), main.getWindowWidth()); // TAMANHO E VELOCIDADE DO PROCESSO
+		frame.addComponentToList("algorithym_properties", Utils.addSubTitle(panel, (gridy += 1), "Propriedades de Aloritmos"));
 		JPanel algorithymSelectPanel = new JPanel();
 		addAlgorithmProperties(algorithymSelectPanel);
 		GridBagConstraints gbcAlgorithym = new GridBagConstraints();
-		gbcAlgorithym.gridy = (gridy+=1);
+		gbcAlgorithym.gridy = (gridy += 1);
 		panel.add(algorithymSelectPanel, gbcAlgorithym);
 	}
+
 	private void addAlgoritymTime(JPanel panel) {
 		JComboBox<String> algorithm = new JComboBox<>(Main.getAlgorithmsNameList().toArray(new String[0]));
 		frame.addComponentToList("algorithm", algorithm);

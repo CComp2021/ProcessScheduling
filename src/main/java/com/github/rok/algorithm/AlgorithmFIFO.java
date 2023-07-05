@@ -1,6 +1,7 @@
 package com.github.rok.algorithm;
 
-import com.github.rok.IMainController;
+import com.github.rok.interfaces.IMainController;
+import com.github.rok.interfaces.AlgorithmInterface;
 import com.github.rok.os.Process;
 
 /*

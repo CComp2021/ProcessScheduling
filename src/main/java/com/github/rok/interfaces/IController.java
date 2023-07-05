@@ -1,4 +1,4 @@
-package com.github.rok;
+package com.github.rok.interfaces;
 
 import com.github.rok.os.CPU;
 import com.github.rok.os.Process;

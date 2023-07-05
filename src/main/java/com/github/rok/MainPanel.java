@@ -1,8 +1,10 @@
 package com.github.rok;
 
-import com.github.rok.algorithm.AlgorithmInterface;
+import com.github.rok.interfaces.*;
 import com.github.rok.os.*;
 import com.github.rok.os.Process;
+import com.github.rok.os.interfaces.ICPU;
+import com.github.rok.os.interfaces.IMemory;
 import com.github.rok.panel.ChartsFrame;
 import com.github.rok.panel.Frame;
 import com.github.rok.utils.Utils;
@@ -26,6 +28,7 @@ public class MainPanel implements IController, IMainController {
 	private AlgorithmInterface algorithm;
 
 	private boolean running = false;
+
 	public MainPanel() {
 		//Cria os modulos do sistema
 		this.cpu = new CPU(this);
@@ -33,6 +36,7 @@ public class MainPanel implements IController, IMainController {
 		chartsFrame = new ChartsFrame(this, memory);
 		frame = new Frame(this, chartsFrame);
 	}
+
 	public void importAlgorithms() {
 		JComboBox<String> algorithmBox = (JComboBox<String>) frame.getComponent("algorithm");
 		for (String algorithm : Main.getAlgorithmsNameList()) {
@@ -58,7 +62,7 @@ public class MainPanel implements IController, IMainController {
 
 		cpu.endProcess();
 		cpu.pause(!running);
-		updateCenterBar(0,"Feito por Pedro Lucas Nascimento, Caio Lapa, Kaio Stefan e Joao Victor Mascarenhas.");
+		updateCenterBar(0, "Feito por Pedro Lucas Nascimento, Caio Lapa, Kaio Stefan e Joao Victor Mascarenhas.");
 
 		chartsFrame.updateCPUChartColor(true);
 		updateMemoryBar(0);
@@ -150,8 +154,8 @@ public class MainPanel implements IController, IMainController {
 
 	@Override
 	public void updateTick() {
-		if (cpu.getRunningProcess() != null ) {
-			updateCPUBar((int) ((int) Utils.getPercentageToValue(cpu.getInitialTime(), cpu.getTimeProcessing())*cpu.getProcessSpeed()));
+		if (cpu.getRunningProcess() != null) {
+			updateCPUBar((int) ((int) Utils.getPercentageToValue(cpu.getInitialTime(), cpu.getTimeProcessing()) * cpu.getProcessSpeed()));
 			updateCPUChart();
 			return;
 		}
@@ -172,13 +176,14 @@ public class MainPanel implements IController, IMainController {
 		if (isRunning != CPU.STATE.SCALING) return;
 		chartsFrame.updateCPUChartColor(false);
 		if (toMemory) {
-			updateCenterBar((int) (100 -  completePercentage), "Escalonando para Memória...");
+			updateCenterBar((int) (100 - completePercentage), "Escalonando para Memória...");
 			updateCPUChart();
 			return;
 		}
 		updateCenterBar((int) completePercentage, "Escalonando para CPU...");
 		updateCPUChart();
 	}
+
 	@Override
 	public void memoryTick(double nextGen) {
 		if (nextGen <= 0) {
@@ -206,6 +211,7 @@ public class MainPanel implements IController, IMainController {
 	public IMemory getIMemory() {
 		return memory;
 	}
+
 	@Override
 	public ICPU getICPU() {
 		return cpu;

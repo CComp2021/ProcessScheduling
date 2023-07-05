@@ -60,7 +60,7 @@ public class ButtonsControlFrame {
 		updateButton.setSelected(false);
 
 		GridBagConstraints gbcButtons = new GridBagConstraints();
-		gbcButtons.gridy = (gridy+=1);
+		gbcButtons.gridy = (gridy += 1);
 		gbcButtons.insets = new Insets(10, 10, 10, 10);
 		panel.add(buttonsPanel, gbcButtons);
 	}

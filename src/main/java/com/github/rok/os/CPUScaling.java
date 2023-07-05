@@ -18,6 +18,7 @@ public class CPUScaling {
 	public CPUScaling() {
 		clock = DELAY;
 	}
+
 	protected void tick(CPU cpu) {
 		if (!scaling) return;
 		if (clock > 0) {
@@ -39,7 +40,7 @@ public class CPUScaling {
 		if (scaling) return;
 		waitingProcess = process;
 		processTime = timeProcessing;
-		clock = DELAY/2;
+		clock = DELAY / 2;
 		scaling = true;
 		this.toMemory = toMemory;
 	}
@@ -47,6 +48,7 @@ public class CPUScaling {
 	public boolean isScaling() {
 		return scaling;
 	}
+
 	public boolean isToMemory() {
 		return toMemory;
 	}

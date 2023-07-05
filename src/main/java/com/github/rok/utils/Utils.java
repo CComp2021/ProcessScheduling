@@ -1,12 +1,9 @@
 package com.github.rok.utils;
 
-import com.formdev.flatlaf.ui.FlatSpinnerUI;
+
 import org.knowm.xchart.internal.chartpart.Chart;
 
 import javax.swing.*;
-import javax.swing.plaf.SpinnerUI;
-import javax.swing.plaf.basic.BasicSpinnerUI;
-import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.MouseWheelEvent;
@@ -26,7 +23,7 @@ public class Utils {
 			xData[i] = radians;
 			yData[i] = Math.sin(radians);
 		}
-		return new double[][] { xData, yData };
+		return new double[][]{xData, yData};
 	}
 
 	public static void addDefaultStyle(Chart chart) {
@@ -113,7 +110,7 @@ public class Utils {
 		spinner.setPreferredSize(new Dimension(60, 30));
 		spinner.setToolTipText("Use o Scroll");
 		spinner.setEditor(new JSpinner.DefaultEditor(spinner));
-		spinner.addMouseWheelListener(e->{
+		spinner.addMouseWheelListener(e -> {
 			if (!spinner.isEnabled()) return;
 			double val = (double) spinner.getValue();
 			if (e.getWheelRotation() < 0) {
@@ -135,13 +132,13 @@ public class Utils {
 	}
 
 	public static double getPercentageToValue(double initialVal, double variableVal) {
-		return Math.max(0, Math.min(100, (initialVal- variableVal) * (100.0 / initialVal)));
+		return Math.max(0, Math.min(100, (initialVal - variableVal) * (100.0 / initialVal)));
 	}
 
 	public static JPanel addSeparator(JPanel panel, int y, int width) {
 		JPanel jSeparator = new JPanel();
 		jSeparator.setBackground(Color.decode("#393939"));
-		jSeparator.setPreferredSize(new Dimension(width/2, 1));
+		jSeparator.setPreferredSize(new Dimension(width / 2, 1));
 		GridBagConstraints gb = new GridBagConstraints();
 		gb.gridy = y;
 		panel.add(jSeparator, gb);

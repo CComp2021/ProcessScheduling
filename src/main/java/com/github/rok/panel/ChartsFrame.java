@@ -5,17 +5,13 @@ import com.github.rok.os.Memory;
 import com.github.rok.os.Process;
 import com.github.rok.utils.Utils;
 import org.knowm.xchart.*;
-import org.knowm.xchart.internal.series.Series;
 import org.knowm.xchart.style.AxesChartStyler;
 import org.knowm.xchart.style.Styler;
 
 import javax.swing.*;
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.awt.*;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /*

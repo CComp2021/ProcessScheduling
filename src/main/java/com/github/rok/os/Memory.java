@@ -1,6 +1,7 @@
 package com.github.rok.os;
 
-import com.github.rok.IController;
+import com.github.rok.interfaces.IController;
+import com.github.rok.os.interfaces.IMemory;
 import com.github.rok.utils.Utils;
 import org.jetbrains.annotations.Nullable;
 
@@ -203,6 +204,7 @@ public class Memory implements IMemory {
 		this.generationSpeed = generationSpeed;
 		this.nextToGenerate = generationSpeed;
 	}
+
 	public void pause(boolean paused) {
 		this.paused = paused;
 

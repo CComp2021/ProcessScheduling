@@ -1,6 +1,7 @@
 package com.github.rok.os;
 
-import com.github.rok.IController;
+import com.github.rok.interfaces.IController;
+import com.github.rok.os.interfaces.ICPU;
 import org.jetbrains.annotations.Nullable;
 
 /*
