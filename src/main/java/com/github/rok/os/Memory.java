@@ -1,33 +1,36 @@
 package com.github.rok.os;
 
+import com.github.rok.IController;
 import com.github.rok.utils.Utils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
 /*
  * @author Rok, Pedro Lucas N M Machado created on 03/07/2023
  */
-public class Memory {
+public class Memory implements IMemory {
 
 	public ArrayList<Process> processList = new ArrayList<>(10);
 	// Um placeholder para preencher o gráfico
 	private final Process nullProcess = new Process(0, 0.0001);
 
-	private double generationSpeed = 300;
+	private int generationSpeed = 300;
 	private double nextToGenerate = 0;
 	private boolean paused = true;
-	private Consumer<Double> consumer;
+	private final IController controller;
+
+	private int processMaxSize = 10;
+	private int processMinSize = 1;
 
 	int lastId = 0;
 
-	public Memory(Consumer<Double> consumer) {
+	public Memory(IController controller) {
+		this.controller = controller;
 		new Thread(this::generate).start();
 		for (int i = 0; i < 10; i++) {
 			processList.add(nullProcess);
 		}
-		this.consumer = consumer;
 	}
 
 	public void generate() {
@@ -39,10 +42,10 @@ public class Memory {
 			}
 			if (paused) continue;
 			nextToGenerate -= 1;
-			consumer.accept(nextToGenerate);
+			controller.memoryTick(nextToGenerate);
 			if (nextToGenerate <= 0) {
 				addRandomProcessToMemory();
-				consumer.accept(nextToGenerate);
+				controller.memoryTick(nextToGenerate);
 				nextToGenerate = generationSpeed;
 			}
 		}
@@ -53,10 +56,11 @@ public class Memory {
 	}
 
 	public void addRandomProcessToMemory() {
-		addProcessToMemory(Utils.generateRandomNumber(1,10));
+		addProcessToMemory(Utils.generateRandomNumber(processMinSize, processMaxSize));
 	}
 
-	public int getNextEmpty() {
+	@Override
+	public int getNextEmptySlot() {
 		int lastEmpty = 0;
 		while (processList.get(lastEmpty) != nullProcess) {
 			lastEmpty++;
@@ -66,11 +70,24 @@ public class Memory {
 		return lastEmpty;
 	}
 
-	public void addProcessToMemory(double waitingTime) {
-		if (getNextEmpty() == -1) return; // TODO: tratar erro de memória cheia
-		processList.set(getNextEmpty(), createProcess(waitingTime));
+	public void clearMemory() {
+		for (int i = 0; i < processList.size(); i++) {
+			processList.set(i, nullProcess);
+		}
+		nextToGenerate = generationSpeed;
 	}
 
+	public void addProcessToMemory(double waitingTime) {
+		if (getNextEmptySlot() == -1) return; // TODO: tratar erro de memória cheia
+		processList.set(getNextEmptySlot(), createProcess(waitingTime));
+	}
+
+	public void setProcessSize(int max, int min) {
+		this.processMaxSize = max;
+		this.processMinSize = min;
+	}
+
+	@Override
 	public Process getProcess(int id) {
 		for (Process process : processList) {
 			if (process.getId() == id)
@@ -93,13 +110,15 @@ public class Memory {
 	}
 
 	@Nullable
-	public Process getProcessByListPos(int pos) {
+	@Override
+	public Process getProcessOnListPos(int pos) {
 		if (processList.get(pos) == nullProcess)
 			return null;
 		return processList.get(pos);
 	}
 
 	@Nullable
+	@Override
 	public Process getFirstProcess() {
 		for (Process process : processList) {
 			if (process != nullProcess)
@@ -109,6 +128,7 @@ public class Memory {
 	}
 
 	@Nullable
+	@Override
 	public Process getLastProcess() {
 		for (int i = processList.size() - 1; i >= 0; i--) {
 			if (processList.get(i) != nullProcess)
@@ -117,6 +137,7 @@ public class Memory {
 		return null;
 	}
 
+	@Override
 	public boolean isEmpty() {
 		int count = 0;
 		while (processList.get(count) == nullProcess) {
@@ -131,8 +152,12 @@ public class Memory {
 		return generationSpeed;
 	}
 
-	public boolean pause() {
-		paused = !paused;
-		return paused;
+	public void setGenerationSpeed(int generationSpeed) {
+		this.generationSpeed = generationSpeed;
+		this.nextToGenerate = generationSpeed;
+	}
+	public void pause(boolean paused) {
+		this.paused = paused;
+
 	}
 }
