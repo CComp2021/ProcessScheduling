@@ -115,13 +115,13 @@ public class Utils {
 			double val = (double) spinner.getValue();
 			if (e.getWheelRotation() < 0) {
 				if (val >= max) {
-					spinner.setValue(min);
+					spinner.setValue(max);
 					return;
 				}
 				spinner.setValue(val + 0.1);
 			} else {
-				if ((int) val <= min) {
-					spinner.setValue(max);
+				if (val <= min) {
+					spinner.setValue(min);
 					return;
 				}
 				spinner.setValue(val - 0.1);
@@ -144,4 +144,5 @@ public class Utils {
 		panel.add(jSeparator, gb);
 		return jSeparator;
 	}
+
 }

@@ -54,7 +54,11 @@ public class CPUScaling {
 	}
 
 	public double getPercentageComplete() {
-		return Utils.getPercentageToValue(DELAY, clock);
+		return Utils.getPercentageToValue(DELAY, clock*2);
+	}
+
+	public double getDELAY() {
+		return DELAY;
 	}
 
 	public void setDelay(double DELAY) {

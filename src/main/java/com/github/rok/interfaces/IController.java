@@ -14,4 +14,9 @@ public interface IController {
 
 	void memoryTick(double tick);
 	void sendToMemory(Process process);
+
+	void removeControlButtons();
+
+	void setRunning(boolean running);
+	boolean isRunning();
 }

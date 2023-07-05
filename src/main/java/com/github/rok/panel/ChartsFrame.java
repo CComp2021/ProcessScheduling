@@ -120,8 +120,11 @@ public class ChartsFrame {
 		memoryChartPanel.repaint();
 	}
 
-	public void updateCPUChart(boolean hasRunningProcess) {
-		if (hasRunningProcess) {
+	public void updateCPUChart(boolean hasRunningProcess, boolean isRunning) {
+		if (!isRunning) {
+			main.getCpu().setRunningProcess(null, 0);
+		}
+		if (hasRunningProcess && isRunning) {
 			cpuChart.setTitle("CPU - Processo " + main.getCpu().getRunningProcess().getId());
 			cpuChart.updatePieSeries("Em espera", main.getCpu().getRunningProcess().getWaitingTime());
 			cpuChart.updatePieSeries("Processando...", main.getCpu().getRunningProcess().getProcessTime() - main.getCpu().getAlreadyProcessed());

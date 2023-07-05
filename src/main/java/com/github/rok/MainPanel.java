@@ -21,6 +21,7 @@ public class MainPanel implements IController, IMainController {
 
 	private Memory memory;
 	private CPU cpu;
+	private Counter counter;
 
 	private final Frame frame;
 	private ChartsFrame chartsFrame;
@@ -33,6 +34,7 @@ public class MainPanel implements IController, IMainController {
 		//Cria os modulos do sistema
 		this.cpu = new CPU(this);
 		this.memory = new Memory(this);
+		this.counter = new Counter(this);
 		chartsFrame = new ChartsFrame(this, memory);
 		frame = new Frame(this, chartsFrame);
 	}
@@ -44,6 +46,7 @@ public class MainPanel implements IController, IMainController {
 		}
 	}
 
+	@Override
 	public boolean isRunning() {
 		return running;
 	}
@@ -53,13 +56,19 @@ public class MainPanel implements IController, IMainController {
 		cpu.addProcessToCPU(process, timeProcessing);
 	}
 
+	@Override
+	public void removeControlButtons() {
+		frame.removeControlButtons();
+	}
+	@Override
 	public void setRunning(boolean running) {
 		this.running = running;
 		memory.pause(!running);
 		memory.clearMemory();
-		if (running)
+		if (running) {
 			memory.addRandomProcessToMemory();
-
+			counter.setCounter(frame.getComponentInt("simulation_min"), frame.getComponentInt("simulation_sec"));
+		}
 		cpu.endProcess();
 		cpu.pause(!running);
 		updateCenterBar(0, "Feito por Pedro Lucas Nascimento, Caio Lapa, Kaio Stefan e Joao Victor Mascarenhas.");
@@ -79,15 +88,15 @@ public class MainPanel implements IController, IMainController {
 	// Toda atualização na lista de processos, esse método deve ser chamado para atualizar o gráfico
 	public void updateProperties() {
 		// Memory
-		memory.setGenerationSpeed(((int) ((JSpinner) frame.getComponent("process_delay")).getValue()) * 100);
-		int processMax = (int) ((JSpinner) frame.getComponent("process_max")).getValue();
-		int processMin = (int) ((JSpinner) frame.getComponent("process_min")).getValue();
+		memory.setGenerationSpeed(frame.getComponentInt("process_delay") * 100);
+		int processMax = frame.getComponentInt("process_max");
+		int processMin = frame.getComponentInt("process_min");
 		memory.setProcessSize(processMin, processMax);
 		chartsFrame.getMemoryChart().getStyler().setYAxisMax((double) processMax);
 
 		// CPU
-		cpu.setScalingDelay((double) ((JSpinner) frame.getComponent("scaling_delay")).getValue());
-		cpu.setProcessSpeed(((int) ((JSpinner) frame.getComponent("cpu_speed")).getValue()));
+		cpu.setScalingDelay(frame.getComponentDouble("scaling_delay"));
+		cpu.setProcessSpeed(frame.getComponentDouble("cpu_speed"));
 		algorithm = Main.getAlgorithm((String) ((JComboBox<?>) frame.getComponent("algorithm")).getSelectedItem());
 	}
 
@@ -111,7 +120,7 @@ public class MainPanel implements IController, IMainController {
 
 	public void updateCPUChart() {
 		boolean processRunning = cpu.getRunningProcess() != null;
-		chartsFrame.updateCPUChart(processRunning);
+		chartsFrame.updateCPUChart(processRunning, counter.isRunning());
 		if (processRunning) {
 			lastProcess = cpu.getRunningProcess();
 		} else {
@@ -122,17 +131,7 @@ public class MainPanel implements IController, IMainController {
 	}
 
 	public void useCPUWithAlgorithm() {
-		// TODO: ROBIN REDONDO EMULADO
 		algorithm.execute();
-		/*
-		Process firstProcess = memory.getFirstProcess();
-		if (firstProcess == null) return;
-		int i = lastProcess == null ? firstProcess.getId() : lastProcess.getId() + 1;
-		while (memory.getProcess(i) == null && i < lastProcess.getId() + 9) {
-			i++;
-		}
-		Process next = memory.getProcess(i) == null ? firstProcess : memory.getProcess(i);
-		addProcessToCPU(next, (int) ((JSpinner) frame.getComponent("cpu_running_time")).getValue());*/
 	}
 
 	public CPU getCpu() {
@@ -180,12 +179,16 @@ public class MainPanel implements IController, IMainController {
 			updateCPUChart();
 			return;
 		}
-		updateCenterBar((int) completePercentage, "Escalonando para CPU...");
+		updateCenterBar((int) ((int) completePercentage), "Escalonando para CPU...");
 		updateCPUChart();
 	}
 
 	@Override
 	public void memoryTick(double nextGen) {
+
+		if (counter.isRunning()) {
+			frame.updateTime(counter.getTime());
+		}
 		if (nextGen <= 0) {
 			updateMemoryChart();
 		}

@@ -12,7 +12,7 @@ public class CPU implements ICPU {
 	private Process runningProcess;
 	private Process originalProcess;
 
-	private long processSpeed;
+	private double processSpeed;
 
 	private double initialTime;
 	private double alreadyProcessed;
@@ -126,14 +126,13 @@ public class CPU implements ICPU {
 		scaling.setDelay(speed);
 	}
 
-	public void setProcessSpeed(long processSpeed) {
+	public void setProcessSpeed(double processSpeed) {
 		this.processSpeed = processSpeed;
 	}
 
-	public long getProcessSpeed() {
+	public double getProcessSpeed() {
 		return processSpeed;
 	}
-
 	public double getInitialTime() {
 		return initialTime;
 	}

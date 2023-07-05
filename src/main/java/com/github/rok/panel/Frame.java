@@ -16,9 +16,12 @@ public class Frame {
 	private final HashMap<String, JComponent> components = new HashMap<>();
 
 	private JProgressBar centerBar;
+	private ButtonsControlFrame buttonsControlFrame;
+	private final MainPanel main;
 
 	public Frame(MainPanel main, ChartsFrame chartsFrame) {
 		// Colocando o look and feel
+		this.main = main;
 
 		frame = new JFrame("Escalonamento De Processos");
 		frame.setResizable(false);
@@ -59,7 +62,7 @@ public class Frame {
 		JPanel jPanel = Utils.addSeparator(panel, gridy + 1, main.getWindowWidth());
 		jPanel.setBackground(Color.lightGray);
 
-		new ButtonsControlFrame(panel, this, main, 2); // Last Gridy enter as variable
+		buttonsControlFrame = new ButtonsControlFrame(panel, this, main, 2);// Last Gridy enter as variable
 		new PropertiesControlFrame(panel, this, main, 3);
 
 		Utils.addSeparator(panel, 16, main.getWindowWidth());
@@ -84,6 +87,13 @@ public class Frame {
 		return component;
 	}
 
+	public int getComponentInt(String key) {
+		return (int) ((JSpinner) components.get(key)).getValue();
+	}
+
+	public double getComponentDouble(String key) {
+		return (double) ((JSpinner) components.get(key)).getValue();
+	}
 	public JComponent getComponent(String key) {
 		return components.get(key);
 	}
@@ -99,8 +109,16 @@ public class Frame {
 		centerBar.setString(text);
 	}
 
+	public void removeControlButtons() {
+		buttonsControlFrame.flipSimulation(this, true);
+	}
+
 	public void enableElements() {
 		components.forEach((key, component) -> component.setEnabled(true));
+	}
+
+	public void updateTime(long time) {
+		buttonsControlFrame.updateTime(time);
 	}
 
 

@@ -96,9 +96,9 @@ public class PropertiesControlFrame {
 	}
 
 	private void addCPUProperties(JPanel panel) {
-		JSpinner cpuSpeed = Utils.createSpinner(2, 1, 99, 1);
+		JSpinner cpuSpeed = Utils.createCustomSpinner(2, 0.1, 99.9, 0.1);
 		frame.addComponentToList("cpu_speed", cpuSpeed);
-		JSpinner scalingDelay = Utils.createCustomSpinner(0.2, 0.1, 99.9, 0.1);
+		JSpinner scalingDelay = Utils.createCustomSpinner(0.2, 0.0, 99.9, 0.1);
 		frame.addComponentToList("scaling_delay", scalingDelay);
 
 		panel.add(frame.addComponentToList("cpu_speed_label", new JLabel("Velocidade: ")));

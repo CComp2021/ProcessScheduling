@@ -1,6 +1,7 @@
 package com.github.rok.panel;
 
 import com.github.rok.MainPanel;
+import com.github.rok.utils.TimeUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,54 +11,61 @@ import java.awt.*;
  */
 public class ButtonsControlFrame {
 
+	private MainPanel main;
+	private JButton pause;
+	private JButton startSim;
+	private JButton plus;
+	private JButton minus;
+
+	private JLabel timeLabel;
+
 	public ButtonsControlFrame(JPanel panel, Frame mainFrame, MainPanel main, int gridy) {
 		// Adiciona o botão de atualização
-		JButton updateButton = new JButton("PAUSE");
-		updateButton.setPreferredSize(new Dimension(140, 50));
-		updateButton.setVisible(false);
-		updateButton.setBackground(Color.decode("#996939"));
-		updateButton.addActionListener(e -> {
-			pauseButton(main, updateButton, updateButton.isSelected());
-
+		this.main = main;
+		pause = new JButton("PAUSE");
+		pause.setPreferredSize(new Dimension(115, 50));
+		pause.setVisible(false);
+		pause.setBackground(Color.decode("#996939"));
+		pause.addActionListener(e -> {
+			pauseButton(main, pause, pause.isSelected());
 		});
-		JButton startSim = new JButton("START SIMULATION");
+		startSim = new JButton("START SIMULATION");
 		startSim.setBackground(Color.decode("#399939"));
 		startSim.setPreferredSize(new Dimension(140, 50));
 
-		JButton plus = new JButton("+");
+		JPanel timePanel = new JPanel();
+		timeLabel = new JLabel("0");
+		timeLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		timeLabel.setPreferredSize(new Dimension(50, 50));
+		timeLabel.setToolTipText("Tempo de simulação");
+		timeLabel.setVisible(false);
+		timePanel.add(timeLabel);
+
+		plus = new JButton("+");
 		plus.setFont(new Font("Arial", Font.PLAIN, 20));
 		plus.setPreferredSize(new Dimension(50, 50));
 		plus.setToolTipText("Aumenta a velocidade de geração de processos");
 		plus.setVisible(false);
 		plus.addActionListener(e -> addValueToDelay(-1, main, mainFrame));
 
-		JButton minus = new JButton("-");
+		minus = new JButton("-");
 		minus.setFont(new Font("Arial", Font.PLAIN, 20));
 		minus.setPreferredSize(new Dimension(50, 50));
 		minus.setToolTipText("Diminui a velocidade de geração de processos");
 		minus.setVisible(false);
 		minus.addActionListener(e -> addValueToDelay(1, main, mainFrame));
 
-		startSim.addActionListener(e ->
-
-		{
-			if (!main.isRunning()) {
-				startSim.setText("STOP");
-				startSim.setBackground(Color.decode("#993939"));
-				setRunning(true, mainFrame, main, updateButton, plus, minus);
-				return;
-			}
-			setRunning(false, mainFrame, main, updateButton, plus, minus);
-			startSim.setBackground(Color.decode("#399939"));
-			startSim.setText("START SIMULATION");
+		startSim.addActionListener(e -> {
+			flipSimulation(mainFrame, main.isRunning());
 		});
 
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.add(plus);
-		buttonsPanel.add(updateButton);
+		buttonsPanel.add(pause);
+		buttonsPanel.add(timeLabel);
 		buttonsPanel.add(startSim);
 		buttonsPanel.add(minus);
-		updateButton.setSelected(false);
+		pause.setSelected(false);
 
 		GridBagConstraints gbcButtons = new GridBagConstraints();
 		gbcButtons.gridy = (gridy += 1);
@@ -88,10 +96,24 @@ public class ButtonsControlFrame {
 		updateButton.setSelected(true);
 	}
 
-	public void setRunning(boolean running, Frame frame, MainPanel main, JButton pause, JButton plus, JButton minus) {
+	public void flipSimulation(Frame mainFrame, boolean running) {
+		if (!running) {
+			startSim.setText("STOP");
+			startSim.setBackground(Color.decode("#993939"));
+			startSim.setPreferredSize(new Dimension(115, 50));
+			setRunning(true, mainFrame);
+			return;
+		}
+		setRunning(false, mainFrame);
+		startSim.setPreferredSize(new Dimension(140, 50));
+		startSim.setBackground(Color.decode("#399939"));
+		startSim.setText("START SIMULATION");
+	}
+	public void setRunning(boolean running, Frame frame) {
 		pause.setVisible(running);
 		plus.setVisible(running);
 		minus.setVisible(running);
+		timeLabel.setVisible(running);
 
 		pauseButton(main, pause, running);
 		if (running) {
@@ -101,5 +123,9 @@ public class ButtonsControlFrame {
 			frame.enableElements();
 		}
 		main.setRunning(running);
+	}
+
+	public void updateTime(Long time) {
+		timeLabel.setText(TimeUtils.getTime(time));
 	}
 }
