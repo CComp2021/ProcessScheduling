@@ -16,5 +16,13 @@ public interface IMemory {
 
 	@Nullable Process getLastProcess();
 
+	@Nullable Process getLowestIdProcess();
+
+	@Nullable Process getHighestIdProcess();
+
+	@Nullable Process getLowestTimeProcess();
+
+	@Nullable Process getHighestTimeProcess();
+
 	boolean isEmpty();
 }

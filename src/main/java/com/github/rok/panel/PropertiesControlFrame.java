@@ -1,5 +1,6 @@
 package com.github.rok.panel;
 
+import com.github.rok.Main;
 import com.github.rok.MainPanel;
 import com.github.rok.utils.Utils;
 
@@ -50,7 +51,7 @@ public class PropertiesControlFrame {
 		panel.add(algorithymSelectPanel, gbcAlgorithym);
 	}
 	private void addAlgoritymTime(JPanel panel) {
-		JComboBox<String> algorithm = new JComboBox<>(new String[]{"First Come First Served", "Shortest Job First", "Round Robin", "Priority"});
+		JComboBox<String> algorithm = new JComboBox<>(Main.getAlgorithmsNameList().toArray(new String[0]));
 		frame.addComponentToList("algorithm", algorithm);
 		JLabel algorithmLabel = new JLabel("Algoritmo: ");
 		frame.addComponentToList("algorithm_label", algorithmLabel);
@@ -111,7 +112,7 @@ public class PropertiesControlFrame {
 	}
 
 	private void addProcessProperties(JPanel panel) {
-		JSpinner processDelay = Utils.createSpinner(5, 1, 99, 1);
+		JSpinner processDelay = Utils.createSpinner(3, 1, 99, 1);
 		frame.addComponentToList("process_delay", processDelay);
 		JSpinner processMin = Utils.createSpinner(1, 1, 98, 1);
 		frame.addComponentToList("process_min", processMin);
@@ -135,7 +136,7 @@ public class PropertiesControlFrame {
 
 	public void addAlgorithmProperties(JPanel panel) {
 		JSpinner cpuRunningTime = Utils.createSpinner(5, 1, 99, 1);
-		frame.addComponentToList("addAlgorithmProperties", cpuRunningTime);
+		frame.addComponentToList("cpu_running_time", cpuRunningTime);
 		JSpinner processMin = Utils.createSpinner(1, 1, 98, 1);
 		frame.addComponentToList("prior_min", processMin);
 		JSpinner processMax = Utils.createSpinner(10, 1, 99, 1);

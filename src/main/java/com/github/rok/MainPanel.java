@@ -1,5 +1,6 @@
 package com.github.rok;
 
+import com.github.rok.algorithm.AlgorithmInterface;
 import com.github.rok.os.*;
 import com.github.rok.os.Process;
 import com.github.rok.panel.ChartsFrame;
@@ -22,6 +23,8 @@ public class MainPanel implements IController, IMainController {
 	private final Frame frame;
 	private ChartsFrame chartsFrame;
 
+	private AlgorithmInterface algorithm;
+
 	private boolean running = false;
 	public MainPanel() {
 		//Cria os modulos do sistema
@@ -29,6 +32,12 @@ public class MainPanel implements IController, IMainController {
 		this.memory = new Memory(this);
 		chartsFrame = new ChartsFrame(this, memory);
 		frame = new Frame(this, chartsFrame);
+	}
+	public void importAlgorithms() {
+		JComboBox<String> algorithmBox = (JComboBox<String>) frame.getComponent("algorithm");
+		for (String algorithm : Main.getAlgorithmsNameList()) {
+			algorithmBox.addItem(algorithm);
+		}
 	}
 
 	public boolean isRunning() {
@@ -75,6 +84,7 @@ public class MainPanel implements IController, IMainController {
 		// CPU
 		cpu.setScalingDelay((double) ((JSpinner) frame.getComponent("scaling_delay")).getValue());
 		cpu.setProcessSpeed(((int) ((JSpinner) frame.getComponent("cpu_speed")).getValue()));
+		algorithm = Main.getAlgorithm((String) ((JComboBox<?>) frame.getComponent("algorithm")).getSelectedItem());
 	}
 
 	private void updateMemoryBar(int value) {
@@ -109,6 +119,8 @@ public class MainPanel implements IController, IMainController {
 
 	public void useCPUWithAlgorithm() {
 		// TODO: ROBIN REDONDO EMULADO
+		algorithm.execute();
+		/*
 		Process firstProcess = memory.getFirstProcess();
 		if (firstProcess == null) return;
 		int i = lastProcess == null ? firstProcess.getId() : lastProcess.getId() + 1;
@@ -116,7 +128,7 @@ public class MainPanel implements IController, IMainController {
 			i++;
 		}
 		Process next = memory.getProcess(i) == null ? firstProcess : memory.getProcess(i);
-		addProcessToCPU(next, (int) ((JSpinner) frame.getComponent("cpu_running_time")).getValue());
+		addProcessToCPU(next, (int) ((JSpinner) frame.getComponent("cpu_running_time")).getValue());*/
 	}
 
 	public CPU getCpu() {
@@ -135,10 +147,11 @@ public class MainPanel implements IController, IMainController {
 		return WINDOW_HEIGHT;
 	}
 
+
 	@Override
 	public void updateTick() {
 		if (cpu.getRunningProcess() != null ) {
-			updateCPUBar((int) Utils.getPercentageToValue(cpu.getInitialTime(), cpu.getTimeProcessing()));
+			updateCPUBar((int) ((int) Utils.getPercentageToValue(cpu.getInitialTime(), cpu.getTimeProcessing())*cpu.getProcessSpeed()));
 			updateCPUChart();
 			return;
 		}

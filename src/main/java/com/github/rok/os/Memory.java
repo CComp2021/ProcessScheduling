@@ -138,6 +138,53 @@ public class Memory implements IMemory {
 	}
 
 	@Override
+	public @Nullable Process getLowestIdProcess() {
+		Process lowestId = getFirstProcess();
+		if (lowestId == null) return null;
+		for (Process process : processList) {
+			if (process == nullProcess) continue;
+			if (process.getId() < lowestId.getId())
+				lowestId = process;
+		}
+		return lowestId;
+	}
+
+	@Override
+	public @Nullable Process getHighestIdProcess() {
+		Process highestId = getFirstProcess();
+		if (highestId == null) return null;
+		for (Process process : processList) {
+			if (process.getId() > highestId.getId())
+				highestId = process;
+		}
+		return highestId;
+	}
+
+	@Override
+	public @Nullable Process getLowestTimeProcess() {
+		Process lowestTime = getFirstProcess();
+		if (lowestTime == null) return null;
+		for (Process process : processList) {
+			if (process == nullProcess) continue;
+			if (process.getWaitingTime() < lowestTime.getWaitingTime())
+				lowestTime = process;
+		}
+		return lowestTime;
+	}
+
+	@Override
+	public @Nullable Process getHighestTimeProcess() {
+		Process highestTime = getFirstProcess();
+		if (highestTime == null) return null;
+		for (Process process : processList) {
+			if (process == nullProcess) continue;
+			if (process.getWaitingTime() > highestTime.getWaitingTime())
+				highestTime = process;
+		}
+		return highestTime;
+	}
+
+	@Override
 	public boolean isEmpty() {
 		int count = 0;
 		while (processList.get(count) == nullProcess) {

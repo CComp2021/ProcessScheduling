@@ -129,6 +129,10 @@ public class CPU implements ICPU {
 		this.processSpeed = processSpeed;
 	}
 
+	public long getProcessSpeed() {
+		return processSpeed;
+	}
+
 	public double getInitialTime() {
 		return initialTime;
 	}
