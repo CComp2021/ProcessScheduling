@@ -113,7 +113,7 @@ public class PropertiesControlFrame {
 	}
 
 	private void addProcessProperties(JPanel panel) {
-		JSpinner processDelay = Utils.createSpinner(3, 1, 99, 1);
+		JSpinner processDelay = Utils.createCustomSpinner(2.0, 0.1, 99.9, 0.1);
 		frame.addComponentToList("process_delay", processDelay);
 		JSpinner processMin = Utils.createSpinner(1, 1, 98, 1);
 		frame.addComponentToList("process_min", processMin);
@@ -121,7 +121,7 @@ public class PropertiesControlFrame {
 		frame.addComponentToList("process_max", processMax);
 		processDelay.addChangeListener(e -> {
 			JSpinner spinner = (JSpinner) e.getSource();
-			main.getMemory().setGenerationSpeed((int) spinner.getValue() * 100);
+			main.getMemory().setGenerationSpeed((int) (((double)spinner.getValue()) * 100));
 		});
 		JSpinnerMinMax(processMin, processMax);
 
@@ -136,7 +136,7 @@ public class PropertiesControlFrame {
 	}
 
 	public void addAlgorithmProperties(JPanel panel) {
-		JSpinner cpuRunningTime = Utils.createCustomSpinner(5, 1, 99.9, 0.1);
+		JSpinner cpuRunningTime = Utils.createCustomSpinner(3, 1, 99.9, 0.1);
 		frame.addComponentToList("cpu_running_time", cpuRunningTime);
 		JSpinner processMin = Utils.createSpinner(1, 1, 98, 1);
 		frame.addComponentToList("prior_min", processMin);

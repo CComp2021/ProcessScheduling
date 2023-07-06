@@ -16,6 +16,6 @@ public class AlgorithmFIFO implements AlgorithmInterface {
 	public void execute() {
 		Process lowestIdProcess = controller.getIMemory().getLowestIdProcess();
 		if (lowestIdProcess == null) return;
-		controller.addProcessToCPU(lowestIdProcess, lowestIdProcess.getWaitingTime());
+		controller.addProcessToCPU(lowestIdProcess, lowestIdProcess.getProcessTime());
 	}
 }

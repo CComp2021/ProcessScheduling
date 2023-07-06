@@ -17,14 +17,13 @@ public class Frame {
 
 	private JProgressBar centerBar;
 	private ButtonsControlFrame buttonsControlFrame;
-	private final MainPanel main;
 
 	public Frame(MainPanel main, ChartsFrame chartsFrame) {
 		// Colocando o look and feel
-		this.main = main;
 
 		frame = new JFrame("Escalonamento De Processos");
-		frame.setResizable(false);
+		frame.setMinimumSize(new Dimension(1372, main.getWindowHeight()));
+		frame.setResizable(true);
 
 		frame.setLayout(new java.awt.GridLayout(1, 3));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
