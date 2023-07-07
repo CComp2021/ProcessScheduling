@@ -2,6 +2,7 @@ package com.github.rok;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.github.rok.algorithm.AlgorithmFIFO;
+import com.github.rok.algorithm.ShortestJobFirst;
 import com.github.rok.interfaces.AlgorithmInterface;
 
 import javax.swing.*;
@@ -29,7 +30,9 @@ public class Main {
 
 	public static void importAlgorithms() {
 		// Inserir algoritmos aqui
+
 		algorithms.put("FIFO", new AlgorithmFIFO(mainPanel));
+		algorithms.put("SJF", new ShortestJobFirst(mainPanel));
 		mainPanel.importAlgorithms();
 	}
 
