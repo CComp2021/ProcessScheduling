@@ -18,6 +18,6 @@ public class ShortestJobFirst implements AlgorithmInterface{
         if (lowestSizeProcess == null) {
             return;
         }
-        controller.addProcessToCPU(lowestSizeProcess, lowestSizeProcess.getProcessTime());
+        controller.addProcessToCPU(lowestSizeProcess, lowestSizeProcess.getWaitingTime()/2);
     }
 }
