@@ -32,6 +32,7 @@ public class MainPanel implements IController, IMainController {
     private Memory memory;
     private CPU cpu;
     private Counter counter;
+    private IReport report;
 
     private final Frame frame;
     private ChartsFrame chartsFrame;
@@ -39,14 +40,18 @@ public class MainPanel implements IController, IMainController {
     private AlgorithmInterface algorithm;
 
     private boolean running = false;
+    private boolean paused = false;
 
     public MainPanel() {
         //Cria os modulos do sistema
+
+
         this.cpu = new CPU(this);
         this.memory = new Memory(this);
         this.counter = new Counter(this);
         chartsFrame = new ChartsFrame(this, memory);
         frame = new Frame(this, chartsFrame);
+        report = new Report(frame.getReportPanel(), cpu, memory.getEnded(),this);
     }
 
     public void importAlgorithms() {
@@ -59,6 +64,11 @@ public class MainPanel implements IController, IMainController {
     @Override
     public boolean isRunning() {
         return running;
+    }
+
+    @Override
+    public IReport getReport() {
+        return null;
     }
 
     @Override
@@ -76,7 +86,9 @@ public class MainPanel implements IController, IMainController {
         this.running = running;
         memory.pause(!running);
         memory.clearMemory();
+        report.setRunning(running);
         if (running) {
+            paused = false;
             memory.addRandomProcessToMemory();
             counter.setCounter(minutes, seconds);
         }
@@ -94,6 +106,8 @@ public class MainPanel implements IController, IMainController {
     public void pause(boolean pause) {
         memory.pause(pause);
         cpu.pause(pause);
+        counter.setPaused(pause);
+        paused = pause;
     }
 
     // Toda atualização na lista de processos, esse método deve ser chamado para atualizar o gráfico
@@ -170,6 +184,9 @@ public class MainPanel implements IController, IMainController {
         return WINDOW_HEIGHT;
     }
 
+    public boolean isPaused() {
+        return paused;
+    }
 
     @Override
     public void updateTick() {

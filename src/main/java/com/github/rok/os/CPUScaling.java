@@ -29,6 +29,7 @@ public class CPUScaling {
 			cpu.endProcess();
 			cpu.setState(CPU.STATE.WAITING);
 		} else {
+			waitingProcess.addScalingTime(DELAY*1000);
 			cpu.setRunningProcess(waitingProcess, processTime);
 			cpu.setState(CPU.STATE.COMPUTING);
 		}

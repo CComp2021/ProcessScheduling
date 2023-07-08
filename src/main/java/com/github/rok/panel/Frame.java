@@ -18,11 +18,13 @@ public class Frame {
 	private JProgressBar centerBar;
 	private ButtonsControlFrame buttonsControlFrame;
 
+	private final ReportPanel reportPanel;
+
 	public Frame(MainPanel main, ChartsFrame chartsFrame) {
 		// Colocando o look and feel
 
 		frame = new JFrame("Escalonamento De Processos");
-		frame.setMinimumSize(new Dimension(1372, main.getWindowHeight()));
+		frame.setMinimumSize(new Dimension(1372, 590));
 		frame.setResizable(true);
 
 		frame.setLayout(new java.awt.GridLayout(1, 3));
@@ -64,10 +66,11 @@ public class Frame {
 		buttonsControlFrame = new ButtonsControlFrame(panel, this, main, 2);// Last Gridy enter as variable
 		new PropertiesControlFrame(panel, this, main, 3);
 
-		Utils.addSeparator(panel, 16, main.getWindowWidth());
+        reportPanel = new ReportPanel(panel, main, 16);
+
 		// Preenche o painel com os elementos
 		gbc = new GridBagConstraints();
-		gbc.gridy = 17;
+		gbc.gridy = 20;
 		gbc.weighty = 1.0;
 		gbc.fill = GridBagConstraints.BOTH;
 		panel.add(new JPanel(), gbc);
@@ -120,5 +123,7 @@ public class Frame {
 		buttonsControlFrame.updateTime(time);
 	}
 
-
+	public ReportPanel getReportPanel() {
+		return reportPanel;
+	}
 }

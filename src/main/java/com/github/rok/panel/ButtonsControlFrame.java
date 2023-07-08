@@ -77,8 +77,8 @@ public class ButtonsControlFrame {
 		JSpinner processDelay = ((JSpinner) mainFrame.getComponent("process_delay"));
 		double generationSpeed = main.getMemory().getGenerationSpeed();
 		if ((generationSpeed / 100 > 1 && val == -1) || (generationSpeed / 100 < 99 && val == 1)) {
-			processDelay.setValue((int) processDelay.getValue() + val);
-			main.getMemory().setGenerationSpeed((int) processDelay.getValue() * 100);
+			processDelay.setValue((((double)processDelay.getValue()) + val));
+			main.getMemory().setGenerationSpeed((int) (((double)processDelay.getValue()) * 100));
 		}
 	}
 
