@@ -7,6 +7,8 @@ import com.github.rok.algorithm.AlgorithmFairShare;
 import com.github.rok.algorithm.AlgorithmShortestJobFirst;
 import com.github.rok.algorithm.AlgorithmShortestremainingtime;
 
+import com.github.rok.algorithm.AlgorithmRoundRobin;
+
 import com.github.rok.interfaces.AlgorithmInterface;
 
 import javax.swing.*;
@@ -40,6 +42,7 @@ public class Main {
 		algorithms.put("SRT", new AlgorithmShortestremainingtime(mainPanel));
 		algorithms.put("Fair-Share", new AlgorithmFairShare(mainPanel));
 		algorithms.put("Lottery", new AlgorithmFairShare(mainPanel));
+		algorithms.put("RoundRobin", new AlgorithmRoundRobin(mainPanel));
 		mainPanel.importAlgorithms();
 	}
 

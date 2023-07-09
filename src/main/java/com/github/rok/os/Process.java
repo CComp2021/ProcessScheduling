@@ -80,4 +80,8 @@ public class Process {
 		this.waitingTime = process.waitingTime;
 		this.timeOnCPU = process.timeOnCPU;
 	}
+
+    public double getProcessTime() {
+		return processTime;
+    }
 }
