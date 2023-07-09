@@ -13,12 +13,15 @@ public class Process {
 	private final long arrivalTime;
 	private long timeOnCPU;
 
+	private int priority; // Nova propriedade para a prioridade do processo
+
 	public Process(int id, double waitingTime, long arrivalTime) {
 		this.id = id;
 		this.arrivalTime = arrivalTime;
 		this.processTime = 0;
 		this.waitingTime = waitingTime;
 		this.timeScaling = 0;
+
 	}
 
 	public Process(int id, double waitingTime, double processTime, long arrivalTime, double timeScaling, long timeOnCPU) {
@@ -28,6 +31,16 @@ public class Process {
 		this.arrivalTime = arrivalTime;
 		this.timeScaling = timeScaling;
 		this.timeOnCPU = timeOnCPU;
+	}
+
+	public Process(int id, double waitingTime, long arrivalTime, int priority) {
+		this.id = id;
+		this.arrivalTime = arrivalTime;
+		this.processTime = 0;
+		this.waitingTime = waitingTime;
+		this.timeScaling = 0;
+
+		this.priority = priority;
 	}
 
 	public int getId() {
@@ -79,5 +92,9 @@ public class Process {
 		this.processTime = process.processTime;
 		this.waitingTime = process.waitingTime;
 		this.timeOnCPU = process.timeOnCPU;
+	}
+
+	public int getPriority() {
+		return priority;
 	}
 }
