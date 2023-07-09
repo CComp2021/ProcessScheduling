@@ -7,10 +7,10 @@ import com.github.rok.os.Process;
 /*
  * @author Fantiko, Kaio Stefan Campos Nunes created on 07/07/2023
  */
-public class Shortestremainingtime implements AlgorithmInterface{
+public class AlgorithmShortestremainingtime implements AlgorithmInterface{
     private final IMainController controller;
 
-    public Shortestremainingtime(IMainController controller) {
+    public AlgorithmShortestremainingtime(IMainController controller) {
         this.controller = controller;
     }
 
@@ -18,6 +18,6 @@ public class Shortestremainingtime implements AlgorithmInterface{
     public void execute() {
         Process ShortestRemainingTime = controller.getIMemory().getLowestTimeProcess();
         if (ShortestRemainingTime == null) return;
-        controller.addProcessToCPU(ShortestRemainingTime, ShortestRemainingTime.getWaitingTime()/2);
+        controller.addProcessToCPU(ShortestRemainingTime, 1);
     }
 }
