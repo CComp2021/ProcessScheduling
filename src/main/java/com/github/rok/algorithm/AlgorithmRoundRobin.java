@@ -10,7 +10,7 @@ import com.github.rok.os.Process;
 public class AlgorithmRoundRobin implements AlgorithmInterface {
     private final IMainController controller;
 
-    private static final double TIME_QUANTUM = 4.0; // Quantum de tempo (em segundos)
+    private static final double TIME_QUANTUM = 1.0; // Quantum de tempo (em segundos)
 
     private Process currentProcess; // Processo atualmente em execução
     private double remainingTime; // Tempo restante para o processo atual
@@ -29,27 +29,15 @@ public class AlgorithmRoundRobin implements AlgorithmInterface {
                 remainingTime = TIME_QUANTUM;
                 controller.addProcessToCPU(currentProcess, TIME_QUANTUM);
             }
+        }else if(currentProcess == controller.getLastProcess()){
+            controller.addProcessToCPU(currentProcess,remainingTime);
+            currentProcess = controller.getIMemory().getLowestIdProcess();
         } else {
-            // Verifica se o tempo do processo atual esgotou
-            if (remainingTime <= 0) {
-                // Envia o processo atual de volta para a memória
-                controller.addProcessToCPU(currentProcess, currentProcess.getProcessTime());
-                currentProcess = null;
-                remainingTime = 0;
-            } else {
-                // Verifica se há algum processo com prioridade maior
-                Process highestPriorityProcess = controller.getIMemory().getHighestIdProcess();
-                if (highestPriorityProcess != null && highestPriorityProcess.getId() > currentProcess.getId()) {
-                    // Envia o processo atual de volta para a memória
-                    controller.addProcessToCPU(currentProcess, remainingTime);
-                    currentProcess = highestPriorityProcess;
-                    remainingTime = TIME_QUANTUM;
-                    controller.addProcessToCPU(currentProcess, TIME_QUANTUM);
-                } else {
-                    // Continua executando o processo atual
-                    remainingTime -= 0.01; // Reduz o tempo restante do processo (simulação)
-                }
-            }
+            Process nextProcess = controller.getIMemory().getProcess(currentProcess.getId()+1);
+            controller.addProcessToCPU(currentProcess,remainingTime);
+            currentProcess = nextProcess;
+            remainingTime = TIME_QUANTUM;
+            controller.addProcessToCPU(currentProcess,TIME_QUANTUM);
         }
 
     }
