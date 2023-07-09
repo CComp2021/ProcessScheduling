@@ -2,6 +2,7 @@ package com.github.rok;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.github.rok.algorithm.AlgorithmFIFO;
+import com.github.rok.algorithm.AlgorithmFairShare;
 import com.github.rok.algorithm.ShortestJobFirst;
 import com.github.rok.interfaces.AlgorithmInterface;
 
@@ -33,6 +34,8 @@ public class Main {
 
 		algorithms.put("FIFO", new AlgorithmFIFO(mainPanel));
 		algorithms.put("SJF", new ShortestJobFirst(mainPanel));
+		algorithms.put("Fair-Share", new AlgorithmFairShare(mainPanel));
+		algorithms.put("Lottery", new AlgorithmFairShare(mainPanel));
 		mainPanel.importAlgorithms();
 	}
 
