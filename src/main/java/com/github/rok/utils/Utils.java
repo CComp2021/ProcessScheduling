@@ -91,25 +91,19 @@ public class Utils {
 		spinner.setToolTipText("Use o Scroll");
 		spinner.setPreferredSize(new Dimension(50, 30));
 		spinner.addMouseWheelListener(action::accept);
+		spinner.setAutoscrolls(true);
 		spinner.setEditor(new JSpinner.DefaultEditor(spinner));
 		return spinner;
 	}
 
 	public static JSpinner createCustomSpinner(double initial, double min, double max, double step) {
-		// Cria um NumberFormatter para formatar o texto do JSpinner
-		DecimalFormat decimalFormat = new DecimalFormat("#0.0");
-		NumberFormatter formatter = new NumberFormatter(decimalFormat);
-		formatter.setValueClass(Double.class);
-		formatter.setMinimum(0.0);
-		formatter.setMaximum(100.0);
-		formatter.setAllowsInvalid(false);
-
 		// Cria um SpinnerNumberModel com o NumberFormatter personalizado
 		SpinnerNumberModel spinnerModel = new SpinnerNumberModel(initial, min, max, step);
 		JSpinner spinner = new JSpinner(spinnerModel);
+		spinner.setAutoscrolls(true);
 		spinner.setPreferredSize(new Dimension(60, 30));
 		spinner.setToolTipText("Use o Scroll");
-		spinner.setEditor(new JSpinner.DefaultEditor(spinner));
+		spinner.setEditor(new JSpinner.NumberEditor(spinner, "#0.0"));
 		spinner.addMouseWheelListener(e -> {
 			if (!spinner.isEnabled()) return;
 			double val = (double) spinner.getValue();

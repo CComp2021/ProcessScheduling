@@ -25,9 +25,6 @@ public class CPU implements ICPU {
     private final IController controller;
     private final CPUScaling scaling;
 
-    // TODO: Graficos
-    long startingTime;
-
     private boolean paused = true;
 
     public CPU(IController controller) {
@@ -54,10 +51,9 @@ public class CPU implements ICPU {
         if (timeProcessing > 0)
             timeProcessing -= 0.01;
 
-
         if (timeProcessing <= 0 || runningProcess.getWaitingTime() <= 0) {
+            runningProcess.addTimeOnCPU((long) (initialTime - Math.min(alreadyProcessed, timeProcessing)));
             scaling.scale(runningProcess, initialTime - alreadyProcessed, true);
-            System.out.println(System.currentTimeMillis() - startingTime);
         }
         controller.updateTick();
 
@@ -81,7 +77,7 @@ public class CPU implements ICPU {
     }
 
     private void setRunningProcess(@Nullable Process runningProcess) {
-        double processTime = runningProcess == null ? 0 : runningProcess.getProcessTime();
+        double processTime = runningProcess == null ? 0 : runningProcess.getProcessedTime();
         setRunningProcess(runningProcess, processTime);
     }
 
@@ -96,10 +92,10 @@ public class CPU implements ICPU {
             this.alreadyProcessed = 0;
             return;
         }
-        startingTime = System.currentTimeMillis();
+
         originalProcess = runningProcess;
         this.runningProcess = runningProcess.clone();
-        this.alreadyProcessed = runningProcess.getProcessTime();
+        this.alreadyProcessed = runningProcess.getProcessedTime();
         this.timeProcessing = timeProcessing;
         this.initialTime = timeProcessing;
     }
@@ -137,8 +133,8 @@ public class CPU implements ICPU {
         this.processSpeed = processSpeed;
     }
 
-    public double getProcessSpeed() {
-        return processSpeed;
+    public boolean isScaling() {
+        return scaling.isScaling();
     }
 
     public double getInitialTime() {

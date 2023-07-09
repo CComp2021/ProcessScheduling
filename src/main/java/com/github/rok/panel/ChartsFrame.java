@@ -62,7 +62,7 @@ public class ChartsFrame {
 		);
 		memoryChart.addSeries("Computado", processIds,
 				memory.processList.stream()
-						.map(Process::getProcessTime)
+						.map(Process::getProcessedTime)
 						.collect(Collectors.toList()));
 
 		cpuChart = new PieChartBuilder().width(main.getWindowWidth() / 2).height(main.getWindowHeight()).title("CPU").build();
@@ -113,7 +113,7 @@ public class ChartsFrame {
 						.collect(Collectors.toList()), null);
 		memoryChart.updateCategorySeries("Computado", processIds,
 				main.getMemory().processList.stream()
-						.map(Process::getProcessTime)
+						.map(Process::getProcessedTime)
 						.collect(Collectors.toList()), null);
 
 		memoryChartPanel.revalidate();
@@ -127,7 +127,7 @@ public class ChartsFrame {
 		if (hasRunningProcess && isRunning) {
 			cpuChart.setTitle("CPU - Processo " + main.getCpu().getRunningProcess().getId());
 			cpuChart.updatePieSeries("Em espera", main.getCpu().getRunningProcess().getWaitingTime());
-			cpuChart.updatePieSeries("Processando...", main.getCpu().getRunningProcess().getProcessTime() - main.getCpu().getAlreadyProcessed());
+			cpuChart.updatePieSeries("Processando...", main.getCpu().getRunningProcess().getProcessedTime() - main.getCpu().getAlreadyProcessed());
 			cpuChart.updatePieSeries("Computado", main.getCpu().getAlreadyProcessed());
 		}
 		cpuChartPanel.revalidate();
