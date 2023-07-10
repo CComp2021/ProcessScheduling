@@ -66,10 +66,6 @@ public class MainPanel implements IController, IMainController {
         return running;
     }
 
-    @Override
-    public IReport getReport() {
-        return null;
-    }
 
     @Override
     public void addProcessToCPU(Process process, double timeProcessing) {
@@ -263,17 +259,15 @@ public class MainPanel implements IController, IMainController {
     }
 
     @Override
+    public Process getLastProcess() {
+        return lastProcess;
+    }
+
     public int getPriorMax() {
         return priorMax;
     }
 
-    @Override
     public int getPriorMin() {
         return priorMin;
-    }
-
-    @Override
-    public Process getLastProcess() {
-        return lastProcess;
     }
 }

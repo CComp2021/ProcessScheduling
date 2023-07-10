@@ -45,21 +45,6 @@ public interface IMainController {
 	 * @return O tempo de processamento que o processo vai ficar na CPU.
 	 */
 	double getTimeOnCpu();
-
-	/**
-	 * Propiedade especifica de algoritmos.
-	 *
-	 * @return O valor maximo de prioridade que o processo pode ter.
-	 */
-	int getPriorMax();
-
-	/**
-	 * Propiedade especifica de algoritmos.
-	 *
-	 * @return O valor minimo de prioridade que o processo pode ter.
-	 */
-	int getPriorMin();
-
 	/**
 	 * Propiedade especifica de algoritmos.
 	 *

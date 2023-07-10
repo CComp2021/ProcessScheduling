@@ -21,7 +21,7 @@ public class Memory implements IMemory {
     private static final Map<Process, Long> endedProcesses = new HashMap<>();
 
     // Um placeholder para preencher o gráfico
-    private final Process nullProcess = new Process(0, 0.0001, 0);
+    private final Process nullProcess = new Process(0, 0.0001, 0, 0);
 
     private int generationSpeed = 300;
     private double nextToGenerate = 0;
@@ -54,12 +54,12 @@ public class Memory implements IMemory {
         }
     }
 
-    public Process createProcess(double waitingTime) {
-        return new Process(++lastId, waitingTime, System.currentTimeMillis());
+    public Process createProcess(double waitingTime, int priority) {
+        return new Process(++lastId, waitingTime, System.currentTimeMillis(), priority);
     }
 
     public void addRandomProcessToMemory() {
-        addProcessToMemory(Utils.generateRandomNumber(processMinSize, processMaxSize));
+        addProcessToMemory(Utils.generateRandomNumber(processMinSize, processMaxSize), (int) Utils.generateRandomNumber(controller.getPriorMin(), controller.getPriorMax()));
     }
 
     @Override
@@ -81,9 +81,9 @@ public class Memory implements IMemory {
         nextToGenerate = generationSpeed;
     }
 
-    public void addProcessToMemory(double waitingTime) {
+    public void addProcessToMemory(double waitingTime, int priority) {
         if (getNextEmptySlot() == -1) return; // TODO: tratar erro de memória cheia
-        processList.set(getNextEmptySlot(), createProcess(waitingTime));
+        processList.set(getNextEmptySlot(), createProcess(waitingTime, priority));
     }
 
     public void setProcessSize(int max, int min) {

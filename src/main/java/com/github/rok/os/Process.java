@@ -8,26 +8,29 @@ public class Process {
 	private double processTime; // Tempo de espera (varia de acordo com o algoritmo)
 	private double waitingTime; // Tempo total que o processo leva
 	private double timeScaling;
+	private int priority;
 
 	// Informações para os relatórios
 	private final long arrivalTime;
 	private long timeOnCPU;
 
-	public Process(int id, double waitingTime, long arrivalTime) {
+	public Process(int id, double waitingTime, long arrivalTime, int priority) {
 		this.id = id;
 		this.arrivalTime = arrivalTime;
 		this.processTime = 0;
 		this.waitingTime = waitingTime;
 		this.timeScaling = 0;
+		this.priority = priority;
 	}
 
-	public Process(int id, double waitingTime, double processTime, long arrivalTime, double timeScaling, long timeOnCPU) {
+	public Process(int id, double waitingTime, double processTime, long arrivalTime, double timeScaling, long timeOnCPU, int priority) {
 		this.id = id;
 		this.processTime = processTime;
 		this.waitingTime = waitingTime;
 		this.arrivalTime = arrivalTime;
 		this.timeScaling = timeScaling;
 		this.timeOnCPU = timeOnCPU;
+		this.priority = priority;
 	}
 
 	public int getId() {
@@ -67,10 +70,14 @@ public class Process {
 		return timeOnCPU;
 	}
 
+	public int getPriority() {
+		return priority;
+	}
+
 	// Apenas para não ocorrer bug de desincronização na visualização, mas idealmente é como se fosse o mesmo processo que está na memória
 	@Override
 	protected Process clone() {
-		return new Process(id, waitingTime, processTime, arrivalTime, timeScaling, timeOnCPU);
+		return new Process(id, waitingTime, processTime, arrivalTime, timeScaling, timeOnCPU, priority);
 	}
 
 	protected void consume(Process process) {
@@ -79,6 +86,7 @@ public class Process {
 		this.processTime = process.processTime;
 		this.waitingTime = process.waitingTime;
 		this.timeOnCPU = process.timeOnCPU;
+		this.priority = process.priority;
 	}
 
     public double getProcessTime() {

@@ -20,5 +20,6 @@ public interface IController {
 	void setRunning(boolean running);
 	boolean isRunning();
 
-	IReport getReport();
+	int getPriorMax();
+	int getPriorMin();
 }
