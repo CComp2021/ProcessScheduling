@@ -25,6 +25,7 @@ public class CPUScaling {
 			clock -= 0.01;
 			return;
 		}
+		scaling = false;
 		if (toMemory) {
 			cpu.endProcess();
 			cpu.setState(CPU.STATE.WAITING);
@@ -33,7 +34,7 @@ public class CPUScaling {
 			cpu.setRunningProcess(waitingProcess, processTime);
 			cpu.setState(CPU.STATE.COMPUTING);
 		}
-		scaling = false;
+
 	}
 
 	protected void scale(Process process, double timeProcessing, boolean toMemory) {

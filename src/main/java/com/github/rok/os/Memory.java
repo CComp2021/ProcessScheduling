@@ -77,6 +77,7 @@ public class Memory implements IMemory {
         for (int i = 0; i < processList.size(); i++) {
             processList.set(i, nullProcess);
         }
+        nextPos = -1;
         endedProcesses.clear();
         nextToGenerate = generationSpeed;
     }
@@ -222,7 +223,7 @@ public class Memory implements IMemory {
             nextPos++;
         }
         if (nextPos >= processList.size()) {
-            nextPos = 0;
+            nextPos = -1;
             return null;
         }
         return processList.get(nextPos);
@@ -232,8 +233,8 @@ public class Memory implements IMemory {
     public @Nullable Process getNextProcessByInitial(int initialPos) {
         int nextIPos = initialPos +1;
         Process nextProcess = nullProcess;
-        while (nextPos < processList.size() && nextProcess == nullProcess) {
-            nextProcess = processList.get(nextPos);
+        while (nextIPos < processList.size() && nextProcess == nullProcess) {
+            nextProcess = processList.get(nextIPos);
             nextIPos++;
         }
         if (nextPos >= processList.size()) {
@@ -244,7 +245,6 @@ public class Memory implements IMemory {
             nextIPos++;
         }
         if ( nextProcess == nullProcess) {
-            nextIPos = 0;
             return null;
         }
         return processList.get(nextIPos);

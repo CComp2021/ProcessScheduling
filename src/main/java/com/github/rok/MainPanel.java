@@ -8,7 +8,6 @@ import com.github.rok.os.interfaces.IMemory;
 import com.github.rok.panel.ChartsFrame;
 import com.github.rok.panel.Frame;
 import com.github.rok.utils.Utils;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
@@ -155,6 +154,7 @@ public class MainPanel implements IController, IMainController {
             lastProcess = cpu.getRunningProcess();
         } else {
             // TODO: TESTANDO OUTROS METODOS APAGAR DEPOIS
+            if (cpu.isScaling()) return;
             useCPUWithAlgorithm();
             updateMemoryChart();
         }
@@ -225,7 +225,7 @@ public class MainPanel implements IController, IMainController {
         if (nextGen <= 0) {
             updateMemoryChart();
         }
-        if (!cpu.isRunning() && memory.getFirstProcess() != null) {
+        if (!cpu.isRunning() && memory.getFirstProcess() != null && !cpu.isScaling()) {
             useCPUWithAlgorithm();
         }
         updateMemoryBar(100 - (int) (nextGen / (memory.getGenerationSpeed() / 100)));
