@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class AlgorithmFairShare implements AlgorithmInterface {
     private final IMainController controller;
+    private int posIdx = 0;
 
     public AlgorithmFairShare(IMainController controller) {
         this.controller = controller;
@@ -30,10 +31,17 @@ public class AlgorithmFairShare implements AlgorithmInterface {
         // Calcula a fatia de tempo justa para cada processo
         double timeSlice = calculateTimeSlice(processes.size());
 
-        // Adiciona cada processo à CPU com sua fatia de tempo
-        for (Process process : processes) {
-            controller.addProcessToCPU(process, timeSlice);
+        if (posIdx >= 10 || posIdx > processes.size()){
+            posIdx = 0;
         }
+
+        // Adiciona cada processo à CPU com sua fatia de tempo
+        if(controller.addProcessToCPU(controller.getIMemory().getProcessOnListPos(posIdx), timeSlice)){
+            posIdx++;
+        }
+        System.out.println(posIdx);
+        System.out.println(controller.getICPU().isRunning());
+
     }
 
     /**
