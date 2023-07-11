@@ -214,9 +214,10 @@ public class Memory implements IMemory {
         return highestPriority;
     }
 
-    private int nextPos = 0;
+    private int nextPos = -1;
     @Override
     public @Nullable Process getNextProcessOnList() {
+        nextPos++;
         while (nextPos < processList.size() && nullProcess == processList.get(nextPos)) {
             nextPos++;
         }
