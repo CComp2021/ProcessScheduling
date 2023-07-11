@@ -191,6 +191,44 @@ public class Memory implements IMemory {
     }
 
     @Override
+    public @Nullable Process getLowestPriorityProcess() {
+        Process lowestPriority = getFirstProcess();
+        if (lowestPriority == null) return null;
+        for (Process process : processList) {
+            if (process == nullProcess) continue;
+            if (process.getPriority() < lowestPriority.getPriority())
+                lowestPriority = process;
+        }
+        return lowestPriority;
+    }
+
+    @Override
+    public @Nullable Process getHighestPriorityProcess() {
+        Process highestPriority = getFirstProcess();
+        if (highestPriority == null) return null;
+        for (Process process : processList) {
+            if (process == nullProcess) continue;
+            if (process.getPriority() > highestPriority.getPriority())
+                highestPriority = process;
+        }
+        return highestPriority;
+    }
+
+    private int nextPos = 0;
+    @Override
+    public @Nullable Process getNextProcessOnList() {
+        while (nextPos < processList.size() && nullProcess == processList.get(nextPos)) {
+            nextPos++;
+        }
+        if (nextPos >= processList.size()) {
+            nextPos = 0;
+            return null;
+        }
+        return processList.get(nextPos);
+    }
+
+
+    @Override
     public boolean isEmpty() {
         int count = 0;
         while (processList.get(count) == nullProcess) {

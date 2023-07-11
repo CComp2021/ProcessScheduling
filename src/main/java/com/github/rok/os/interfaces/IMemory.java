@@ -78,6 +78,27 @@ public interface IMemory {
 	@Nullable Process getHighestTimeProcess();
 
 	/**
+	 * Obtém o processo com a menor prioridade na memória.
+	 *
+	 * @return O processo com a menor prioridade, ou null se a memória estiver vazia.
+	 */
+	@Nullable Process getLowestPriorityProcess();
+
+	/**
+	 * Obtém o processo com a maior prioridade na memória.
+	 *
+	 * @return O processo com a maior prioridade, ou null se a memória estiver vazia.
+	 */
+	@Nullable Process getHighestPriorityProcess();
+
+	/**
+	 * Obtém o próximo processo na lista da memória. (a cada chamada ele pegará o próximo processo)
+	 *
+	 * @return O próximo processo na lista da memória, ou null se a memória estiver vazia.
+	 */
+	@Nullable Process getNextProcessOnList();
+
+	/**
 	 * Verifica se a memória está vazia.
 	 *
 	 * @return true se a memória estiver vazia, false caso contrário.
