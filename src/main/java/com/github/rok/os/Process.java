@@ -41,7 +41,7 @@ public class Process {
 		return processTime;
 	}
 
-	protected void addProcessTime(double processTime) {
+	public void addProcessTime(double processTime) {
 		this.processTime += processTime;
 		this.waitingTime -= processTime;
 	}
