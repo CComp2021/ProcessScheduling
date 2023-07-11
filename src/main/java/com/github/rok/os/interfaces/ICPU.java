@@ -12,10 +12,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface ICPU {
 
-	/**
-	 * Finaliza o processo em execução na CPU.
-	 */
-	void endProcess();
+
 
 	/**
 	 * Obtém o processo em execução na CPU.
@@ -37,4 +34,6 @@ public interface ICPU {
 	 * @return true se a CPU estiver em execução, false caso contrário.
 	 */
 	boolean isRunning();
+
+	void stopProcess();
 }

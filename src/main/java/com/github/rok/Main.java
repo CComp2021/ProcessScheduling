@@ -33,7 +33,7 @@ public class Main {
 
 		algorithms.put("FIFO", new AlgorithmFIFO(mainPanel));
 		algorithms.put("SJF", new AlgorithmShortestJobFirst(mainPanel));
-		algorithms.put("SRT", new AlgorithmShortestremainingtime(mainPanel));
+		algorithms.put("SRT", new AlgorithmShortestRemainingTime(mainPanel));
 		algorithms.put("Fair-Share", new AlgorithmFairShare(mainPanel));
 		algorithms.put("Lottery", new AlgorithmFairShare(mainPanel));
 		algorithms.put("RoundRobin", new AlgorithmRoundRobin(mainPanel));

@@ -21,6 +21,11 @@ public class AlgorithmRoundRobin implements AlgorithmInterface {
         controller.addProcessToCPU(nextProcessByInitial, controller.getTimeOnCpu());
     }
 
+    @Override
+    public void tickNewProcess(Process newProcess) {
+
+    }
+
 
 }
 

@@ -108,7 +108,13 @@ public class Memory implements IMemory {
             Process process = processList.get(i);
             if (process.getId() == id) {
                 endedProcesses.put(process.clone(), System.currentTimeMillis() - process.getArrivalTime());
-                processList.set(i, nullProcess);
+                if (getListPosById(id)+1 < processList.size()) {
+                    for (int j = getListPosById(id); j < processList.size() - 1; j++) {
+                        processList.set(j, processList.get(j + 1));
+                    }
+                }
+                removedMemory = true;
+                processList.set(9, nullProcess);
                 return;
             }
         }
@@ -218,9 +224,11 @@ public class Memory implements IMemory {
     }
 
     private int nextPos = -1;
+    private boolean removedMemory = false;
     @Override
     public @Nullable Process getNextProcessOnList() {
-        nextPos++;
+        if (!removedMemory)
+            nextPos++;
         while (nextPos < processList.size() && nullProcess == processList.get(nextPos)) {
             nextPos++;
         }
@@ -228,29 +236,30 @@ public class Memory implements IMemory {
             nextPos = -1;
             return null;
         }
+        removedMemory = false;
         return processList.get(nextPos);
     }
 
-    @Override
-    public @Nullable Process getNextProcessByInitial(int initialPos) {
-        int nextIPos = initialPos +1;
-        Process nextProcess = nullProcess;
-        while (nextIPos < processList.size() && nextProcess == nullProcess) {
-            nextProcess = processList.get(nextIPos);
-            nextIPos++;
-        }
-        if (nextPos >= processList.size()) {
-            nextIPos = 0;
-        }
-        while (nextProcess == nullProcess && nextIPos < initialPos) {
-            nextProcess = processList.get(nextIPos);
-            nextIPos++;
-        }
-        if ( nextProcess == nullProcess) {
-            return null;
-        }
-        return processList.get(nextIPos);
-    }
+//    @Override
+//    public @Nullable Process getNextProcessByInitial(int initialPos) {
+//        int nextIPos = initialPos +1;
+//        Process nextProcess = nullProcess;
+//        while (nextIPos < processList.size() && nextProcess == nullProcess) {
+//            nextProcess = processList.get(nextIPos);
+//            nextIPos++;
+//        }
+//        if (nextPos >= processList.size()) {
+//            nextIPos = 0;
+//        }
+//        while (nextProcess == nullProcess && nextIPos < initialPos) {
+//            nextProcess = processList.get(nextIPos);
+//            nextIPos++;
+//        }
+//        if ( nextProcess == nullProcess) {
+//            return null;
+//        }
+//        return processList.get(nextIPos);
+//    }
 
     @Override
     public int getListPosById(int id) {

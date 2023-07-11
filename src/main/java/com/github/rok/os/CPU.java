@@ -59,7 +59,6 @@ public class CPU implements ICPU {
 
     }
 
-    @Override
     public void endProcess() {
         if (runningProcess == null) return;
         originalProcess.consume(runningProcess);
@@ -142,6 +141,10 @@ public class CPU implements ICPU {
         return initialTime;
     }
 
+    @Override
+    public void stopProcess() {
+        timeProcessing = 0;
+    }
     public enum STATE {
         WAITING, SCALING, COMPUTING
     }
