@@ -7,10 +7,10 @@ import com.github.rok.os.Process;
 /*
  * @author Fantiko, Kaio Stefan Campos Nunes created on 07/07/2023
  */
-public class AlgorithmShortestremainingtime implements AlgorithmInterface{
+public class AlgorithmShortestRemainingTime implements AlgorithmInterface{
     private final IMainController controller;
 
-    public AlgorithmShortestremainingtime(IMainController controller) {
+    public AlgorithmShortestRemainingTime(IMainController controller) {
         this.controller = controller;
     }
 
@@ -24,6 +24,11 @@ public class AlgorithmShortestremainingtime implements AlgorithmInterface{
 
     @Override
     public void tickNewProcess(Process newProcess) {
-
+        if (controller.getICPU().getRunningProcess() == null) return;
+        System.out.println("Processo " + newProcess.getId() + " chegou");
+        if(newProcess.getWaitingTime() < controller.getICPU().getRunningProcess().getWaitingTime()) {
+            controller.getICPU().stopProcess();
+            System.out.println("Processo " + controller.getICPU().getRunningProcess().getId() + " interrompido");
+        }
     }
 }
