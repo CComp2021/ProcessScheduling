@@ -10,20 +10,15 @@ import com.github.rok.os.Process;
 public class AlgorithmRoundRobin implements AlgorithmInterface {
     private final IMainController controller;
 
-    private int lastProcessPos = -1;
-
     public AlgorithmRoundRobin(IMainController controller) {
         this.controller = controller;
     }
 
-    int ticko = 0;
 
     public void execute() {
         Process nextProcessByInitial = controller.getIMemory().getNextProcessOnList();
         if (nextProcessByInitial == null) return;
-        if (controller.addProcessToCPU(nextProcessByInitial, controller.getTimeOnCpu())) {
-            lastProcessPos = controller.getIMemory().getListPosById(nextProcessByInitial.getId());
-        }
+        controller.addProcessToCPU(nextProcessByInitial, controller.getTimeOnCpu());
     }
 
 

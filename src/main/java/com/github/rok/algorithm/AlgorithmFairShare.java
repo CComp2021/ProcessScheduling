@@ -31,9 +31,9 @@ public class AlgorithmFairShare implements AlgorithmInterface {
         double timeSlice = calculateTimeSlice(processes.size());
 
         // Adiciona cada processo à CPU com sua fatia de tempo
-        for (Process process : processes) {
-            controller.addProcessToCPU(process, timeSlice);
-        }
+
+        controller.addProcessToCPU(controller.getIMemory().getNextProcessOnList(), timeSlice);
+
     }
 
     /**

@@ -1,13 +1,7 @@
 package com.github.rok;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.github.rok.algorithm.AlgorithmFIFO;
-
-import com.github.rok.algorithm.AlgorithmFairShare;
-import com.github.rok.algorithm.AlgorithmShortestJobFirst;
-import com.github.rok.algorithm.AlgorithmShortestremainingtime;
-
-import com.github.rok.algorithm.AlgorithmRoundRobin;
+import com.github.rok.algorithm.*;
 
 import com.github.rok.interfaces.AlgorithmInterface;
 
