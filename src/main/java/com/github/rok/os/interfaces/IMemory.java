@@ -99,6 +99,20 @@ public interface IMemory {
 	@Nullable Process getNextProcessOnList();
 
 	/**
+	 * Obtém o próximo processo na lista da memória que tenha o ID especificado.
+	 *
+	 * @return O próximo processo na lista da memória com o ID especificado, ou null se não for encontrado.
+	 */
+	@Nullable Process getNextProcessByInitial(int initialPos);
+
+	/**
+	 * Obtém a posição na lista da memória onde esse processo está.
+	 *
+	 * @return A posição na lista, ou -1 se a memória estiver vazia.
+	 */
+	int getListPosById(int id);
+
+	/**
 	 * Verifica se a memória está vazia.
 	 *
 	 * @return true se a memória estiver vazia, false caso contrário.

@@ -228,6 +228,36 @@ public class Memory implements IMemory {
         return processList.get(nextPos);
     }
 
+    @Override
+    public @Nullable Process getNextProcessByInitial(int initialPos) {
+        int nextIPos = initialPos +1;
+        Process nextProcess = nullProcess;
+        while (nextPos < processList.size() && nextProcess == nullProcess) {
+            nextProcess = processList.get(nextPos);
+            nextIPos++;
+        }
+        if (nextPos >= processList.size()) {
+            nextIPos = 0;
+        }
+        while (nextProcess == nullProcess && nextIPos < initialPos) {
+            nextProcess = processList.get(nextIPos);
+            nextIPos++;
+        }
+        if ( nextProcess == nullProcess) {
+            nextIPos = 0;
+            return null;
+        }
+        return processList.get(nextIPos);
+    }
+
+    @Override
+    public int getListPosById(int id) {
+        for (int i = 0; i < processList.size(); i++) {
+            if (processList.get(i).getId() == id)
+                return i;
+        }
+        return -1;
+    }
 
     @Override
     public boolean isEmpty() {
