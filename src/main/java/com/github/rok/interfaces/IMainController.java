@@ -22,8 +22,9 @@ public interface IMainController {
 	 *
 	 * @implNote Recomendo usar o método setRunningProcess(process, process.getTimeProcessing())
 	 * da CPU para executar o processo até o final.
+	 * @return true se o processo foi adicionado com sucesso, false caso contrário.
 	 */
-	void addProcessToCPU(Process process, double timeProcessing);
+	boolean addProcessToCPU(Process process, double timeProcessing);
 
 	/**
 	 * Obtém a instância IMemory associada ao controlador principal.

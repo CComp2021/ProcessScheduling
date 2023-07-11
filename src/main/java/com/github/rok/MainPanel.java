@@ -68,8 +68,8 @@ public class MainPanel implements IController, IMainController {
 
 
     @Override
-    public void addProcessToCPU(Process process, double timeProcessing) {
-        cpu.addProcessToCPU(process, timeProcessing);
+    public boolean addProcessToCPU(Process process, double timeProcessing) {
+        return cpu.addProcessToCPU(process, timeProcessing);
     }
 
     @Override

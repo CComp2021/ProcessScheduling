@@ -71,9 +71,10 @@ public class CPU implements ICPU {
         controller.scalingTick(false, 0, state);
     }
 
-    public void addProcessToCPU(Process process, double timeProcessing) {
-        if (runningProcess != null) return;
+    public boolean addProcessToCPU(Process process, double timeProcessing) {
+        if (runningProcess != null) return false;
         scaling.scale(process, timeProcessing, false);
+        return true;
     }
 
     private void setRunningProcess(@Nullable Process runningProcess) {
