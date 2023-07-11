@@ -21,4 +21,9 @@ public class AlgorithmShortestremainingtime implements AlgorithmInterface{
         //TODO: mudar quando a memória tiver processo menor que ele
         controller.addProcessToCPU(shortestRemainingTime, shortestRemainingTime.getWaitingTime());
     }
+
+    @Override
+    public void tickNewProcess(Process newProcess) {
+
+    }
 }

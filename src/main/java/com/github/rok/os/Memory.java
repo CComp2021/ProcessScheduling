@@ -84,7 +84,9 @@ public class Memory implements IMemory {
 
     public void addProcessToMemory(double waitingTime, int priority) {
         if (getNextEmptySlot() == -1) return; // TODO: tratar erro de memória cheia
-        processList.set(getNextEmptySlot(), createProcess(waitingTime, priority));
+        Process process = createProcess(waitingTime, priority);
+        controller.memoryNewProcessTick(process);
+        processList.set(getNextEmptySlot(), process);
     }
 
     public void setProcessSize(int max, int min) {

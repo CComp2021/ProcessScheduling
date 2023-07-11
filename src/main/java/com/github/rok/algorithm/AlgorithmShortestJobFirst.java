@@ -23,4 +23,9 @@ public class AlgorithmShortestJobFirst implements AlgorithmInterface{
         }
         controller.addProcessToCPU(lowestSizeProcess, 1);
     }
+
+    @Override
+    public void tickNewProcess(Process newProcess) {
+
+    }
 }

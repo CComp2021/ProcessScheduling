@@ -52,4 +52,5 @@ public interface IMainController {
 	 * @return O ultimo processo que foi executado. Caso finalizado será null
 	 */
 	Process getLastProcess();
+
 }

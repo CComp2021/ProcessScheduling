@@ -153,7 +153,6 @@ public class MainPanel implements IController, IMainController {
         if (processRunning) {
             lastProcess = cpu.getRunningProcess();
         } else {
-            // TODO: TESTANDO OUTROS METODOS APAGAR DEPOIS
             if (cpu.isScaling()) return;
             useCPUWithAlgorithm();
             updateMemoryChart();
@@ -212,7 +211,7 @@ public class MainPanel implements IController, IMainController {
             updateCPUChart();
             return;
         }
-        updateCenterBar((int) ((int) completePercentage), "Escalonando para CPU...");
+        updateCenterBar(((int) completePercentage), "Escalonando para CPU...");
         updateCPUChart();
     }
 
@@ -241,6 +240,11 @@ public class MainPanel implements IController, IMainController {
             updateCPUBar(0);
         }
         updateCPUChart();
+    }
+
+    @Override
+    public void memoryNewProcessTick(Process newProcess) {
+        algorithm.tickNewProcess(newProcess);
     }
 
     @Override

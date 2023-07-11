@@ -18,4 +18,9 @@ public class AlgorithmFIFO implements AlgorithmInterface {
 		if (lowestIdProcess == null) return;
 		controller.addProcessToCPU(lowestIdProcess, lowestIdProcess.getWaitingTime()/2);
 	}
+
+	@Override
+	public void tickNewProcess(Process newProcess) {
+
+	}
 }

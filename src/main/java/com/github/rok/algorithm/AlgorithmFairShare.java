@@ -36,6 +36,11 @@ public class AlgorithmFairShare implements AlgorithmInterface {
 
     }
 
+    @Override
+    public void tickNewProcess(Process newProcess) {
+
+    }
+
     /**
      * Obtém todos os processos presentes na memória.
      *

@@ -20,6 +20,8 @@ public interface IController {
 	void setRunning(boolean running);
 	boolean isRunning();
 
+	void memoryNewProcessTick(Process newProcess);
+
 	int getPriorMax();
 	int getPriorMin();
 }
