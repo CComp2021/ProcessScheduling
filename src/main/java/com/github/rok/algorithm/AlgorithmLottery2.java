@@ -14,9 +14,10 @@ public class AlgorithmLottery2 implements AlgorithmInterface{
         this.controller = controller;
     }
 
+    Random random = new Random();
     @Override
     public void execute() {
-        Random random = new Random();
+        if (controller.getIMemory().getMemorySize() == 0) return;
         int numeroAleatorio = random.nextInt(controller.getIMemory().getMemorySize());
 
         Process nextProcessByInitial = controller.getIMemory().getProcessOnListPos(numeroAleatorio);

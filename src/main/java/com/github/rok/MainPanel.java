@@ -42,9 +42,6 @@ public class MainPanel implements IController, IMainController {
     private boolean paused = false;
 
     public MainPanel() {
-        //Cria os modulos do sistema
-
-
         this.cpu = new CPU(this);
         this.memory = new Memory(this);
         this.counter = new Counter(this);

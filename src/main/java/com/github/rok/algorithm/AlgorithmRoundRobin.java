@@ -24,8 +24,6 @@ public class AlgorithmRoundRobin implements AlgorithmInterface {
     public void tickNewProcess(Process newProcess) {
 
     }
-
-
 }
 
 

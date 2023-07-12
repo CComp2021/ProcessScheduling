@@ -18,17 +18,14 @@ public class AlgorithmShortestRemainingTime implements AlgorithmInterface{
     public void execute() {
         Process shortestRemainingTime = controller.getIMemory().getLowestTimeProcess();
         if (shortestRemainingTime == null) return;
-        //TODO: mudar quando a memória tiver processo menor que ele
-        controller.addProcessToCPU(shortestRemainingTime, shortestRemainingTime.getWaitingTime());
+        controller.addProcessToCPU(shortestRemainingTime, shortestRemainingTime.getWaitingTime()/2);
     }
 
     @Override
     public void tickNewProcess(Process newProcess) {
         if (controller.getICPU().getRunningProcess() == null) return;
-        System.out.println("Processo " + newProcess.getId() + " chegou");
         if(newProcess.getWaitingTime() < controller.getICPU().getRunningProcess().getWaitingTime()) {
             controller.getICPU().stopProcess();
-            System.out.println("Processo " + controller.getICPU().getRunningProcess().getId() + " interrompido");
         }
     }
 }

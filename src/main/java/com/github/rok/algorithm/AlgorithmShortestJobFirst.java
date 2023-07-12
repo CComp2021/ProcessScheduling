@@ -7,7 +7,7 @@ import com.github.rok.os.Process;
 /*
  * @author Fantiko, Kaio Stefan Campos Nunes created on 07/07/2023
  */
-public class AlgorithmShortestJobFirst implements AlgorithmInterface{
+public class AlgorithmShortestJobFirst implements AlgorithmInterface {
 
     private final IMainController controller;
 

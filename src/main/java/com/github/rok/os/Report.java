@@ -36,8 +36,6 @@ public class Report implements IReport {
         executorService.scheduleAtFixedRate(thread, 0, 10, TimeUnit.MILLISECONDS);
     }
 
-    int seconds = 0;
-
     private void tick() {
         if (!running) return;
         if (mainPanel.isPaused()) {

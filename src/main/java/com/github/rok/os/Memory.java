@@ -78,6 +78,7 @@ public class Memory implements IMemory {
             processList.set(i, nullProcess);
         }
         nextPos = -1;
+        lastId = 0;
         endedProcesses.clear();
         nextToGenerate = generationSpeed;
     }
@@ -306,7 +307,6 @@ public class Memory implements IMemory {
     public void pause(boolean paused) {
         this.paused = paused;
     }
-
     public Map<Process, Long> getEnded() {
         return endedProcesses;
     }

@@ -49,7 +49,7 @@ public class ChartsFrame {
 		memoryChart.getStyler().setYAxisLabelAlignment(AxesChartStyler.TextAlignment.Right);
 		memoryChart.getStyler().setAxisTickPadding(0);
 		memoryChart.getStyler().setStacked(true);
-		memoryChart.getStyler().setSeriesColors(new Color[]{Color.decode("#ff5555"), Color.decode("#0a84ff"), Color.decode("#ffcc00"),Color.decode("#888888"), Color.decode("#6d6d6d"), Color.decode("#c5c5c5")});
+		memoryChart.getStyler().setSeriesColors(new Color[]{Color.decode("#ff5555"), Color.decode("#0a84ff"), Color.decode("#ffcc00"),Color.decode("#782828"), Color.decode("#043e78"), Color.decode("#826800")});
 		memoryChart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNE);
 
 		List<Integer> processIds = memory.processList.stream()
@@ -91,7 +91,7 @@ public class ChartsFrame {
 		cpuChart.getStyler().setLabelsFont(new Font("sans-serif", Font.BOLD, 15));
 
 		cpuChart.addSeries("Em espera", 0);
-		cpuChart.addSeries("Processando...", 0);
+		cpuChart.addSeries("Processando", 0);
 		cpuChart.addSeries("Computado", 0);
 
 		// Cria o JFrame
@@ -115,7 +115,7 @@ public class ChartsFrame {
 
 	public void clearCPUChart() {
 		cpuChart.updatePieSeries("Em espera", 0);
-		cpuChart.updatePieSeries("Processando...", 0);
+		cpuChart.updatePieSeries("Processando", 0);
 		cpuChart.updatePieSeries("Computado", 0);
 		cpuChart.setTitle("CPU");
 	}
@@ -176,7 +176,7 @@ public class ChartsFrame {
 		if (hasRunningProcess && isRunning) {
 			cpuChart.setTitle("CPU - Processo " + main.getCpu().getRunningProcess().getId());
 			cpuChart.updatePieSeries("Em espera", main.getCpu().getRunningProcess().getWaitingTime());
-			cpuChart.updatePieSeries("Processando...", main.getCpu().getRunningProcess().getProcessedTime() - main.getCpu().getAlreadyProcessed());
+			cpuChart.updatePieSeries("Processando", main.getCpu().getRunningProcess().getProcessedTime() - main.getCpu().getAlreadyProcessed());
 			cpuChart.updatePieSeries("Computado", main.getCpu().getAlreadyProcessed());
 		}
 		cpuChartPanel.revalidate();
@@ -187,13 +187,13 @@ public class ChartsFrame {
 		for (Map.Entry<String, PieSeries> entry : cpuChart.getSeriesMap().entrySet()) {
 			switch (entry.getKey()) {
 				case "Em espera":
-					entry.getValue().setFillColor(isRunning ? Color.decode("#0a84ff") : Color.decode("#6d6d6d"));
+					entry.getValue().setFillColor(isRunning ? Color.decode("#0a84ff") : Color.decode("#054484"));
 					break;
-				case "Processando...":
-					entry.getValue().setFillColor(isRunning ? Color.decode("#ff9f0a") : Color.decode("#ababab"));
+				case "Processando":
+					entry.getValue().setFillColor(isRunning ? Color.decode("#ff9f0a") : Color.decode("#865405"));
 					break;
 				case "Computado":
-					entry.getValue().setFillColor(isRunning ? Color.decode("#ffcc00") : Color.decode("#c5c5c5"));
+					entry.getValue().setFillColor(isRunning ? Color.decode("#ffcc00") : Color.decode("#866b00"));
 					break;
 			}
 
@@ -218,8 +218,6 @@ public class ChartsFrame {
 	public XChartPanel<CategoryChart> getMemoryChartPanel() {
 		return memoryChartPanel;
 	}
-
-
 	public CategoryChart getMemoryChart() {
 		return memoryChart;
 	}
@@ -230,9 +228,5 @@ public class ChartsFrame {
 
 	public JPanel getCpuPanel() {
 		return cpuPanel;
-	}
-
-	public PieChart getCpuChart() {
-		return cpuChart;
 	}
 }
