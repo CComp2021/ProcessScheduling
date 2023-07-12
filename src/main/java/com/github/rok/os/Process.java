@@ -12,7 +12,7 @@ public class Process {
 
 	// Informações para os relatórios
 	private final long arrivalTime;
-	private long timeOnCPU;
+	private double timeOnCPU;
 
 	private boolean gray = false;
 
@@ -25,7 +25,7 @@ public class Process {
 		this.priority = priority;
 	}
 
-	public Process(int id, double waitingTime, double processTime, long arrivalTime, double timeScaling, long timeOnCPU, int priority) {
+	public Process(int id, double waitingTime, double processTime, long arrivalTime, double timeScaling, double timeOnCPU, int priority) {
 		this.id = id;
 		this.processTime = processTime;
 		this.waitingTime = waitingTime;
@@ -48,7 +48,7 @@ public class Process {
 		this.waitingTime -= processTime;
 	}
 
-	protected void addTimeOnCPU(long timeOnCPU) {
+	protected void addTimeOnCPU(double timeOnCPU) {
 		this.timeOnCPU += timeOnCPU;
 	}
 
@@ -68,7 +68,7 @@ public class Process {
 		return arrivalTime;
 	}
 
-	public long getTimeOnCPU() {
+	public double getTimeOnCPU() {
 		return timeOnCPU;
 	}
 

@@ -1,5 +1,6 @@
 package com.github.rok.os;
 
+import com.github.rok.Main;
 import com.github.rok.interfaces.IController;
 import com.github.rok.os.interfaces.ICPU;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +20,7 @@ public class CPU implements ICPU {
     private double processSpeed;
 
     private double initialTime;
+    private long initialTimeMillis;
     private double alreadyProcessed;
     private double timeProcessing;
 
@@ -52,7 +54,7 @@ public class CPU implements ICPU {
             timeProcessing -= 0.01;
 
         if (timeProcessing <= 0 || runningProcess.getWaitingTime() <= 0) {
-            runningProcess.addTimeOnCPU((long) (initialTime - Math.min(alreadyProcessed, timeProcessing)));
+            runningProcess.addTimeOnCPU(System.currentTimeMillis() - initialTimeMillis);
             scaling.scale(runningProcess, initialTime - alreadyProcessed, true);
         }
         controller.updateTick();
@@ -100,6 +102,7 @@ public class CPU implements ICPU {
         this.runningProcess = runningProcess.clone();
         this.alreadyProcessed = runningProcess.getProcessedTime();
         this.timeProcessing = timeProcessing;
+        this.initialTimeMillis = System.currentTimeMillis();
         this.initialTime = timeProcessing;
     }
 

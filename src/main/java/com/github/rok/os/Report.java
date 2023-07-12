@@ -59,9 +59,8 @@ public class Report implements IReport {
         double averageQueueTime = 0;
         for (Map.Entry<Process, Long> entry : endedProcesses.entrySet()) {
             averageReturnTime += entry.getValue();
-            averageQueueTime += entry.getValue() - (entry.getKey().getTimeScaling() + (entry.getKey().getTimeOnCPU() * 1000));
+            averageQueueTime += entry.getValue() - (entry.getKey().getTimeScaling() + entry.getKey().getTimeOnCPU());
         }
-
         reportPanel.setThroughputValue((double) endedProcesses.size() / ((double) (getTimeRunning() / 1000) / 60));
         averageReturnTime /= endedProcesses.size();
         averageQueueTime /= endedProcesses.size();
