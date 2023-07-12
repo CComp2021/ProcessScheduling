@@ -22,6 +22,14 @@ dependencies {
 
 }
 
+javafx {
+    modules("javafx.controls")
+}
+
+application {
+    mainClass.set("com.github.rok.Main")
+}
+
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
