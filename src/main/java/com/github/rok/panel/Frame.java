@@ -1,7 +1,9 @@
 package com.github.rok.panel;
 
+import com.github.rok.Main;
 import com.github.rok.MainPanel;
 import com.github.rok.utils.Utils;
+import javafx.scene.image.Image;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +26,7 @@ public class Frame {
 		// Colocando o look and feel
 
 		frame = new JFrame("Escalonamento De Processos");
+		frame.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("ico.png")).getImage());
 		frame.setMinimumSize(new Dimension(1372, 590));
 		frame.setResizable(true);
 
