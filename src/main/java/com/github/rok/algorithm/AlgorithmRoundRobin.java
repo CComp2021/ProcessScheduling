@@ -14,8 +14,9 @@ public class AlgorithmRoundRobin implements AlgorithmInterface {
         this.controller = controller;
     }
 
+    Process nextProcessByInitial;
     public void execute() {
-        Process nextProcessByInitial = controller.getIMemory().getNextProcessOnList();
+        nextProcessByInitial = controller.getIMemory().getNextProcessOnList();
         if (nextProcessByInitial == null) return;
         controller.addProcessToCPU(nextProcessByInitial, controller.getTimeOnCpu());
     }

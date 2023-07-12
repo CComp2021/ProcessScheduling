@@ -14,6 +14,10 @@ public class Process {
 	private final long arrivalTime;
 	private double timeOnCPU;
 
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
 	private boolean gray = false;
 
 	public Process(int id, double waitingTime, long arrivalTime, int priority) {
@@ -103,3 +107,4 @@ public class Process {
 		return gray;
 	}
 }
+
