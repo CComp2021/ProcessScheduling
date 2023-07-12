@@ -41,7 +41,7 @@ public class ChartsFrame {
 		Utils.addDefaultStyle(memoryChart);
 		memoryChart.getStyler().setAxisTickLabelsColor(Color.decode("#ffffff"));
 		memoryChart.getStyler().setPlotGridLinesColor(Color.decode("#393939"));
-		memoryChart.getStyler().setYAxisMax(10.0);
+		memoryChart.getStyler().setYAxisMax(12.0);
 		memoryChart.getStyler().setAvailableSpaceFill(.50);
 		memoryChart.getStyler().setShowStackSum(true);
 		memoryChart.getStyler().setAxisTicksLineVisible(false);
@@ -49,12 +49,16 @@ public class ChartsFrame {
 		memoryChart.getStyler().setYAxisLabelAlignment(AxesChartStyler.TextAlignment.Right);
 		memoryChart.getStyler().setAxisTickPadding(0);
 		memoryChart.getStyler().setStacked(true);
-		memoryChart.getStyler().setSeriesColors(new Color[]{Color.decode("#0a84ff"), Color.decode("#ffcc00"), Color.decode("#6d6d6d"), Color.decode("#c5c5c5")});
-		memoryChart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
+		memoryChart.getStyler().setSeriesColors(new Color[]{Color.decode("#ff5555"), Color.decode("#0a84ff"), Color.decode("#ffcc00"),Color.decode("#888888"), Color.decode("#6d6d6d"), Color.decode("#c5c5c5")});
+		memoryChart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNE);
 
 		List<Integer> processIds = memory.processList.stream()
 				                           .map(Process::getId)
 				                           .collect(Collectors.toList());
+		memoryChart.addSeries("Prioridade", processIds,
+				memory.processList.stream()
+						.map(process -> (double) process.getPriority()/10)
+						.collect(Collectors.toList()));
 		memoryChart.addSeries("Em espera", processIds,
 				memory.processList.stream()
 						.map(Process::getWaitingTime)
@@ -64,12 +68,25 @@ public class ChartsFrame {
 				memory.processList.stream()
 						.map(Process::getProcessedTime)
 						.collect(Collectors.toList()));
+		memoryChart.addSeries("gpriority", processIds, memory.processList.stream()
+				.map(process -> {return 0;})
+				.collect(Collectors.toList()));
+		memoryChart.addSeries("gespera", processIds, memory.processList.stream()
+				.map(process -> {return 0;})
+				.collect(Collectors.toList()));
+		memoryChart.addSeries("gcomputado", processIds, memory.processList.stream()
+				.map(process -> {return 0;})
+				.collect(Collectors.toList()));
+		memoryChart.getSeriesMap().get("gespera").setShowInLegend(false);
+		memoryChart.getSeriesMap().get("gcomputado").setShowInLegend(false);
+		memoryChart.getSeriesMap().get("gpriority").setShowInLegend(false);
+
 
 		cpuChart = new PieChartBuilder().width(main.getWindowWidth() / 2).height(main.getWindowHeight()).title("CPU").build();
 
 		// Configurações do gráfico CPU
 		Utils.addDefaultStyle(cpuChart);
-		cpuChart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNE);
+		cpuChart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
 		cpuChart.getStyler().setSeriesColors(new Color[]{Color.decode("#0a84ff"), Color.decode("#ff9f0a"), Color.decode("#ffcc00")});
 		cpuChart.getStyler().setLabelsFont(new Font("sans-serif", Font.BOLD, 15));
 
@@ -109,12 +126,44 @@ public class ChartsFrame {
 				                           .collect(Collectors.toList());
 		memoryChart.updateCategorySeries("Em espera", processIds,
 				main.getMemory().processList.stream()
-						.map(Process::getWaitingTime)
+						.map(process -> {
+							if (process.isGray()) return 0;
+							return process.getWaitingTime();
+						})
 						.collect(Collectors.toList()), null);
+
 		memoryChart.updateCategorySeries("Computado", processIds,
 				main.getMemory().processList.stream()
-						.map(Process::getProcessedTime)
+						.map(process -> {
+							if (process.isGray()) return 0;
+							return process.getProcessedTime();
+						})
 						.collect(Collectors.toList()), null);
+		memoryChart.updateCategorySeries("Prioridade", processIds,
+				main.getMemory().processList.stream()
+						.map(process -> {
+							if (process.isGray()) return 0;
+							return (double) process.getPriority()/10;
+						})
+						.collect(Collectors.toList()), null);
+		memoryChart.updateCategorySeries("gpriority", processIds, main.getMemory().processList.stream()
+				.map(process -> {
+					if (!process.isGray()) return 0;
+					return (double) process.getPriority()/10;
+				})
+				.collect(Collectors.toList()), null);
+		memoryChart.updateCategorySeries("gespera", processIds, main.getMemory().processList.stream()
+				.map(process -> {
+					if (!process.isGray()) return 0;
+					return process.getWaitingTime();
+				})
+				.collect(Collectors.toList()), null);
+		memoryChart.updateCategorySeries("gcomputado", processIds, main.getMemory().processList.stream()
+				.map(process -> {
+					if (!process.isGray()) return 0;
+					return process.getProcessTime();
+				})
+				.collect(Collectors.toList()), null);
 
 		memoryChartPanel.revalidate();
 		memoryChartPanel.repaint();

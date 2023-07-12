@@ -68,7 +68,9 @@ public class MainPanel implements IController, IMainController {
 
     @Override
     public boolean addProcessToCPU(Process process, double timeProcessing) {
-        return cpu.addProcessToCPU(process, timeProcessing);
+        boolean b = cpu.addProcessToCPU(process, timeProcessing);
+        updateMemoryChart();
+        return b;
     }
 
     @Override
@@ -112,7 +114,7 @@ public class MainPanel implements IController, IMainController {
         int processMax = frame.getComponentInt("process_max");
         int processMin = frame.getComponentInt("process_min");
         memory.setProcessSize(processMin, processMax);
-        chartsFrame.getMemoryChart().getStyler().setYAxisMax((double) processMax);
+        chartsFrame.getMemoryChart().getStyler().setYAxisMax((double) processMax+2);
 
         // CPU
         cpu.setScalingDelay(frame.getComponentDouble("scaling_delay"));

@@ -14,6 +14,8 @@ public class Process {
 	private final long arrivalTime;
 	private long timeOnCPU;
 
+	private boolean gray = false;
+
 	public Process(int id, double waitingTime, long arrivalTime, int priority) {
 		this.id = id;
 		this.arrivalTime = arrivalTime;
@@ -75,6 +77,10 @@ public class Process {
 	}
 
 	// Apenas para não ocorrer bug de desincronização na visualização, mas idealmente é como se fosse o mesmo processo que está na memória
+
+	protected void setGray(boolean gray) {
+		this.gray = gray;
+	}
 	@Override
 	protected Process clone() {
 		return new Process(id, waitingTime, processTime, arrivalTime, timeScaling, timeOnCPU, priority);
@@ -92,4 +98,8 @@ public class Process {
     public double getProcessTime() {
 		return processTime;
     }
+
+	public boolean isGray() {
+		return gray;
+	}
 }

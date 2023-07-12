@@ -227,8 +227,11 @@ public class Memory implements IMemory {
     private boolean removedMemory = false;
     @Override
     public @Nullable Process getNextProcessOnList() {
-        if (!removedMemory)
+        if (!removedMemory) {
             nextPos++;
+        } else if (nextPos == -1) {
+            nextPos = 0;
+        }
         while (nextPos < processList.size() && nullProcess == processList.get(nextPos)) {
             nextPos++;
         }

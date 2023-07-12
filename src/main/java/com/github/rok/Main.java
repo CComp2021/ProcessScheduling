@@ -39,6 +39,7 @@ public class Main {
 		algorithms.put("RoundRobin", new AlgorithmRoundRobin(mainPanel));
 		algorithms.put("Guaranteed", new AlgorithmGuaranteed(mainPanel));
 		algorithms.put("Lottery", new AlgorithmLottery2(mainPanel));
+
 		mainPanel.importAlgorithms();
 	}
 
