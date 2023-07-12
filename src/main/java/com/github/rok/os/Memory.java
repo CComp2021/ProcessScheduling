@@ -281,6 +281,16 @@ public class Memory implements IMemory {
         return false;
     }
 
+    @Override
+    public int getMemorySize() {
+        int size = 0;
+        for (Process process : processList) {
+            if (process != nullProcess)
+                size ++;
+        }
+        return size;
+    }
+
     public double getGenerationSpeed() {
         return generationSpeed;
     }

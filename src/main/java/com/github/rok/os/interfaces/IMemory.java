@@ -118,4 +118,9 @@ public interface IMemory {
 	 * @return true se a memória estiver vazia, false caso contrário.
 	 */
 	boolean isEmpty();
+
+	/**
+	 * @return retorna a quantidade de processos na memória.
+	 */
+	int getMemorySize();
 }
