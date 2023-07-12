@@ -61,8 +61,10 @@ public class CPU implements ICPU {
 
     public void endProcess() {
         if (runningProcess == null) return;
+        runningProcess.setGray(false);
         originalProcess.consume(runningProcess);
         setRunningProcess(null);
+        originalProcess.setGray(false);
         controller.sendToMemory(originalProcess);
     }
 
@@ -72,6 +74,7 @@ public class CPU implements ICPU {
 
     public boolean addProcessToCPU(Process process, double timeProcessing) {
         if (runningProcess != null) return false;
+        process.setGray(true);
         scaling.scale(process, timeProcessing, false);
         return true;
     }
