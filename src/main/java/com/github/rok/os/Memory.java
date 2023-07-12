@@ -223,6 +223,28 @@ public class Memory implements IMemory {
         }
         return highestPriority;
     }
+    @Override
+    public @Nullable Process getHighestPriorityProcessBelow(Process targetProcess) {
+        Process highestPriorityBelow = null;
+        int targetPriority = targetProcess.getPriority();
+
+        for (Process process : processList) {
+            if (process == nullProcess || process == targetProcess) {
+                continue;
+            }
+
+            int processPriority = process.getPriority();
+
+            if (processPriority <= targetPriority) {
+
+                if (highestPriorityBelow == null || processPriority > highestPriorityBelow.getPriority()) {
+                    highestPriorityBelow = process;
+                }
+            }
+        }
+
+        return highestPriorityBelow;
+    }
 
     private int nextPos = -1;
     private boolean removedMemory = false;

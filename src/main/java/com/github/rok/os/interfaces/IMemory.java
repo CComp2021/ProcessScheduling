@@ -96,6 +96,14 @@ public interface IMemory {
 	 *
 	 * @return O próximo processo na lista da memória, ou null se a memória estiver vazia.
 	 */
+
+	@Nullable Process getHighestPriorityProcessBelow(Process targetProcess);
+	/**
+	 * Obtém o próximo processo na lista da memória que possui prioridade alta porem menor do que o
+	 * processo dado como parametro. (a cada chamada ele pegará o próximo processo)
+	 *
+	 * @return O próximo processo na lista da memória, ou null se a memória estiver vazia.
+	 */
 	@Nullable Process getNextProcessOnList();
 
 	/**
