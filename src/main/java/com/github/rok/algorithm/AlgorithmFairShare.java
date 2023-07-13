@@ -3,7 +3,9 @@ package com.github.rok.algorithm;
 import com.github.rok.interfaces.IMainController;
 import com.github.rok.interfaces.AlgorithmInterface;
 import com.github.rok.os.Process;
+import com.github.rok.os.interfaces.IMemory;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class AlgorithmFairShare implements AlgorithmInterface {
 
     @Override
     public void execute() {
-        List<Process> processes = getAllProcesses();
+        List<Process> processes = controller.getIMemory().getProcessList();
 
         // Verifica se há algum processo na memória
         if (processes.isEmpty()) {
@@ -29,7 +31,8 @@ public class AlgorithmFairShare implements AlgorithmInterface {
 
         // Calcula a fatia de tempo justa para cada processo
         double timeSlice = calculateTimeSlice(processes.size());
-
+        System.out.println(timeSlice);
+        System.out.println(processes.size());
         // Adiciona cada processo à CPU com sua fatia de tempo
 
         controller.addProcessToCPU(controller.getIMemory().getNextProcessOnList(), timeSlice);
@@ -49,7 +52,9 @@ public class AlgorithmFairShare implements AlgorithmInterface {
     private List<Process> getAllProcesses() {
         List<Process> processes = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
+            System.out.println(i);
             Process process = controller.getIMemory().getProcessOnListPos(i);
+
             if (process != null) {
                 processes.add(process);
             }
