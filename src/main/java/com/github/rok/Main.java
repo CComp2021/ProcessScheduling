@@ -41,7 +41,6 @@ public class Main {
 		algorithms.put("Lottery", new AlgorithmLottery2(mainPanel));
 		algorithms.put("Priority", new AlgorithmPriority(mainPanel));
 
-
 		mainPanel.importAlgorithms();
 	}
 
