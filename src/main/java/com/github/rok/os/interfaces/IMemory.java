@@ -3,6 +3,8 @@ package com.github.rok.os.interfaces;
 import com.github.rok.os.Process;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 /*
  * @author Rok, Pedro Lucas N M Machado created on 05/07/2023
  */
@@ -113,6 +115,8 @@ public interface IMemory {
 	 */
 	//@Nullable Process getNextProcessByInitial(int initialPos);
 
+
+	@Nullable List<Process> getProcessList();
 	/**
 	 * Obtém a posição na lista da memória onde esse processo está.
 	 *
