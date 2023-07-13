@@ -3,6 +3,7 @@ package com.github.rok.os;
 import com.github.rok.Main;
 import com.github.rok.interfaces.IController;
 import com.github.rok.os.interfaces.ICPU;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.Executors;
@@ -74,7 +75,7 @@ public class CPU implements ICPU {
         controller.scalingTick(false, 0, state);
     }
 
-    public boolean addProcessToCPU(Process process, double timeProcessing) {
+    public boolean addProcessToCPU(@NotNull Process process, double timeProcessing) {
         if (runningProcess != null) return false;
         process.setGray(true);
         scaling.scale(process, timeProcessing, false);

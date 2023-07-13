@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -132,6 +133,16 @@ public class Memory implements IMemory {
         if (processList.get(pos) == nullProcess)
             return null;
         return processList.get(pos);
+    }
+    
+    @Override
+    public List<Process> getProcessList() {
+        List<Process> processList = new ArrayList<>();
+        for (Process process : this.processList) {
+            if (process != nullProcess)
+                processList.add(process);
+        }
+        return processList;
     }
 
     @Nullable
@@ -270,26 +281,26 @@ public class Memory implements IMemory {
         return processList.get(nextPos);
     }
 
-//    @Override
-//    public @Nullable Process getNextProcessByInitial(int initialPos) {
-//        int nextIPos = initialPos +1;
-//        Process nextProcess = nullProcess;
-//        while (nextIPos < processList.size() && nextProcess == nullProcess) {
-//            nextProcess = processList.get(nextIPos);
-//            nextIPos++;
-//        }
-//        if (nextPos >= processList.size()) {
-//            nextIPos = 0;
-//        }
-//        while (nextProcess == nullProcess && nextIPos < initialPos) {
-//            nextProcess = processList.get(nextIPos);
-//            nextIPos++;
-//        }
-//        if ( nextProcess == nullProcess) {
-//            return null;
-//        }
-//        return processList.get(nextIPos);
-//    }
+    /*@Override
+    public @Nullable Process getNextProcessByInitial(int initialPos) {
+        int nextIPos = initialPos +1;
+        Process nextProcess = nullProcess;
+        while (nextIPos < processList.size() && nextProcess == nullProcess) {
+            nextProcess = processList.get(nextIPos);
+            nextIPos++;
+        }
+        if (nextPos >= processList.size()) {
+            nextIPos = 0;
+        }
+        while (nextProcess == nullProcess && nextIPos < initialPos) {
+            nextProcess = processList.get(nextIPos);
+            nextIPos++;
+        }
+        if (nextProcess == nullProcess) {
+            return null;
+        }
+        return processList.get(nextIPos);
+    }*/
 
     @Override
     public int getListPosById(int id) {

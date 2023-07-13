@@ -14,11 +14,11 @@ public class AlgorithmRoundRobin implements AlgorithmInterface {
         this.controller = controller;
     }
 
-    Process nextProcessByInitial;
+    Process nextProcess;
     public void execute() {
-        nextProcessByInitial = controller.getIMemory().getNextProcessOnList();
-        if (nextProcessByInitial == null) return;
-        controller.addProcessToCPU(nextProcessByInitial, controller.getTimeOnCpu());
+        nextProcess = controller.getIMemory().getNextProcessOnList();
+        if (nextProcess == null) return;
+        controller.addProcessToCPU(nextProcess, controller.getTimeOnCpu());
     }
 
     @Override
