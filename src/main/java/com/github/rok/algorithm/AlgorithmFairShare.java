@@ -22,6 +22,7 @@ public class AlgorithmFairShare implements AlgorithmInterface {
 
     @Override
     public void execute() {
+
         List<Process> processes = controller.getIMemory().getProcessList();
 
         // Verifica se há algum processo na memória
@@ -31,11 +32,11 @@ public class AlgorithmFairShare implements AlgorithmInterface {
 
         // Calcula a fatia de tempo justa para cada processo
         double timeSlice = calculateTimeSlice(processes.size());
-        System.out.println(timeSlice);
-        System.out.println(processes.size());
         // Adiciona cada processo à CPU com sua fatia de tempo
+        Process nextProcessOnList = controller.getIMemory().getNextProcessOnList();
+        if(nextProcessOnList == null) return;
 
-        controller.addProcessToCPU(controller.getIMemory().getNextProcessOnList(), timeSlice);
+        controller.addProcessToCPU(nextProcessOnList, timeSlice);
 
     }
 

@@ -116,7 +116,7 @@ public interface IMemory {
 	//@Nullable Process getNextProcessByInitial(int initialPos);
 
 
-	@Nullable List<Process> getProcessList();
+	List<Process> getProcessList();
 	/**
 	 * Obtém a posição na lista da memória onde esse processo está.
 	 *

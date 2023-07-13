@@ -226,6 +226,7 @@ public class MainPanel implements IController, IMainController {
         if (!cpu.isRunning() && memory.getFirstProcess() != null && !cpu.isScaling()) {
             useCPUWithAlgorithm();
         }
+
         updateMemoryBar(100 - (int) (nextGen / (memory.getGenerationSpeed() / 100)));
     }
 

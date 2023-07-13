@@ -133,8 +133,7 @@ public class Memory implements IMemory {
             return null;
         return processList.get(pos);
     }
-
-    @Nullable
+    
     @Override
     public List<Process> getProcessList() {
         List<Process> processList = new ArrayList<>();
