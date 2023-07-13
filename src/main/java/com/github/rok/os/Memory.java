@@ -1,6 +1,7 @@
 package com.github.rok.os;
 
 import com.github.rok.interfaces.IController;
+import com.github.rok.os.interfaces.ICPU;
 import com.github.rok.os.interfaces.IMemory;
 import com.github.rok.utils.Utils;
 import org.jetbrains.annotations.Nullable;
@@ -226,6 +227,9 @@ public class Memory implements IMemory {
     @Override
     public @Nullable Process getHighestPriorityProcessBelow(Process targetProcess) {
         Process highestPriorityBelow = null;
+        if(targetProcess == null){
+            return getHighestPriorityProcess();
+        }
         int targetPriority = targetProcess.getPriority();
 
         for (Process process : processList) {
@@ -235,7 +239,7 @@ public class Memory implements IMemory {
 
             int processPriority = process.getPriority();
 
-            if (processPriority <= targetPriority) {
+            if ((processPriority == targetPriority && process.getId()>targetProcess.getId()) || processPriority <= targetPriority ) {
 
                 if (highestPriorityBelow == null || processPriority > highestPriorityBelow.getPriority()) {
                     highestPriorityBelow = process;
