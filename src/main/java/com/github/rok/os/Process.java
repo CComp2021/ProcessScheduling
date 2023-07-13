@@ -14,10 +14,6 @@ public class Process {
 	private final long arrivalTime;
 	private double timeOnCPU;
 
-	public void setPriority(int priority) {
-		this.priority = priority;
-	}
-
 	private boolean gray = false;
 
 	public Process(int id, double waitingTime, long arrivalTime, int priority) {
@@ -80,11 +76,23 @@ public class Process {
 		return priority;
 	}
 
-	// Apenas para não ocorrer bug de desincronização na visualização, mas idealmente é como se fosse o mesmo processo que está na memória
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
+	public double getProcessTime() {
+		return processTime;
+	}
+
+	public boolean isGray() {
+		return gray;
+	}
 
 	protected void setGray(boolean gray) {
 		this.gray = gray;
 	}
+
+	// Apenas para não ocorrer bug de desincronização na visualização, mas idealmente é como se fosse o mesmo processo que está na memória
 	@Override
 	protected Process clone() {
 		return new Process(id, waitingTime, processTime, arrivalTime, timeScaling, timeOnCPU, priority);
@@ -97,14 +105,6 @@ public class Process {
 		this.waitingTime = process.waitingTime;
 		this.timeOnCPU = process.timeOnCPU;
 		this.priority = process.priority;
-	}
-
-    public double getProcessTime() {
-		return processTime;
-    }
-
-	public boolean isGray() {
-		return gray;
 	}
 }
 
