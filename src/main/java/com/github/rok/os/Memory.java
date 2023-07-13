@@ -278,7 +278,7 @@ public class Memory implements IMemory {
         return processList.get(nextPos);
     }
 
-    @Override
+    /*@Override
     public @Nullable Process getNextProcessByInitial(int initialPos) {
         int nextIPos = initialPos +1;
         Process nextProcess = nullProcess;
@@ -297,7 +297,7 @@ public class Memory implements IMemory {
             return null;
         }
         return processList.get(nextIPos);
-    }
+    }*/
 
     @Override
     public int getListPosById(int id) {
