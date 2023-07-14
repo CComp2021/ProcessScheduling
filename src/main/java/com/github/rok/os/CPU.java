@@ -98,7 +98,6 @@ public class CPU implements ICPU {
             this.alreadyProcessed = 0;
             return;
         }
-
         originalProcess = runningProcess;
         this.runningProcess = runningProcess.clone();
         this.alreadyProcessed = runningProcess.getProcessedTime();
@@ -146,6 +145,10 @@ public class CPU implements ICPU {
 
     public double getInitialTime() {
         return initialTime;
+    }
+
+    public double getOriginalWaitingTimeProcessing() {
+        return originalProcess.getWaitingTime();
     }
 
     @Override

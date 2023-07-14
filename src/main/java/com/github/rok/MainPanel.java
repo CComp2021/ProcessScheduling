@@ -23,6 +23,7 @@ public class MainPanel implements IController, IMainController {
     private double processOnCPU;
     private int priorMax;
     private int priorMin;
+    private double cpuSpeed;
 
     // Counter
     private int minutes;
@@ -115,7 +116,8 @@ public class MainPanel implements IController, IMainController {
 
         // CPU
         cpu.setScalingDelay(frame.getComponentDouble("scaling_delay"));
-        cpu.setProcessSpeed(frame.getComponentDouble("cpu_speed"));
+        cpuSpeed = frame.getComponentDouble("cpu_speed");
+        cpu.setProcessSpeed(cpuSpeed);
         algorithm = Main.getAlgorithm((String) ((JComboBox<?>) frame.getComponent("algorithm")).getSelectedItem());
 
         // Counter
@@ -188,7 +190,12 @@ public class MainPanel implements IController, IMainController {
             updateCPUChart();
             return;
         }
-        updateCPUBar((int) Utils.getPercentageToValue(cpu.getInitialTime(), cpu.getTimeProcessing()));
+        if (cpu.getInitialTime() == cpu.getOriginalWaitingTimeProcessing()) {
+
+            updateCPUBar((int) ((int) Utils.getPercentageToValue(cpu.getInitialTime(), cpu.getTimeProcessing()) * cpuSpeed));
+        }
+        else
+            updateCPUBar((int) Utils.getPercentageToValue(cpu.getInitialTime(), cpu.getTimeProcessing()));
         updateCPUChart();
     }
 
@@ -224,6 +231,7 @@ public class MainPanel implements IController, IMainController {
             updateMemoryChart();
         }
         if (!cpu.isRunning() && memory.getFirstProcess() != null && !cpu.isScaling()) {
+            lastProcess.setGray(false);
             useCPUWithAlgorithm();
         }
 

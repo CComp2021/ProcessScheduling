@@ -88,7 +88,7 @@ public class Process {
 		return gray;
 	}
 
-	protected void setGray(boolean gray) {
+	public void setGray(boolean gray) {
 		this.gray = gray;
 	}
 

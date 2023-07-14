@@ -237,13 +237,10 @@ public class Memory implements IMemory {
     @Override
     public @Nullable Process getHighestPriorityProcessBelow(Process targetProcess, double targetPriority) {
         Process highestPriorityBelow = null;
-
-
         for (Process process : processList) {
             if (process == nullProcess || process == targetProcess) {
                 continue;
             }
-
             double processPriority = process.getPriority();
 
             if (processPriority <= targetPriority) {
@@ -253,7 +250,6 @@ public class Memory implements IMemory {
                 }
             }
         }
-
         return highestPriorityBelow;
     }
 
@@ -276,27 +272,6 @@ public class Memory implements IMemory {
         removedMemory = false;
         return processList.get(nextPos);
     }
-
-    /*@Override
-    public @Nullable Process getNextProcessByInitial(int initialPos) {
-        int nextIPos = initialPos +1;
-        Process nextProcess = nullProcess;
-        while (nextIPos < processList.size() && nextProcess == nullProcess) {
-            nextProcess = processList.get(nextIPos);
-            nextIPos++;
-        }
-        if (nextPos >= processList.size()) {
-            nextIPos = 0;
-        }
-        while (nextProcess == nullProcess && nextIPos < initialPos) {
-            nextProcess = processList.get(nextIPos);
-            nextIPos++;
-        }
-        if (nextProcess == nullProcess) {
-            return null;
-        }
-        return processList.get(nextIPos);
-    }*/
 
     @Override
     public int getListPosById(int id) {

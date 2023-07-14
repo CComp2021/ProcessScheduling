@@ -6,11 +6,11 @@ import java.util.Random;
 
 import com.github.rok.os.Process;
 
-public class AlgorithmLottery2 implements AlgorithmInterface{
+public class AlgorithmLottery implements AlgorithmInterface{
 
     private final IMainController controller;
 
-    public AlgorithmLottery2( IMainController controller) {
+    public AlgorithmLottery(IMainController controller) {
         this.controller = controller;
     }
 

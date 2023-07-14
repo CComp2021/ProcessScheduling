@@ -33,7 +33,6 @@ public class AlgorithmGuaranteed implements AlgorithmInterface {
         if (nextProcess == null) return;
         lastProcess = nextProcess;
         lastProcessIndex = (int) lastProcess.getPriority();
-        System.out.println(lastProcess.getPriority());
         controller.addProcessToCPU(nextProcess, controller.getTimeOnCpu());
     }
 
