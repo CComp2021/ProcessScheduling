@@ -18,13 +18,13 @@ public class AlgorithmPriority implements AlgorithmInterface {
     @Override
     public void execute() {
         if(currentProcess != null){
-            if(currentProcess.getPriority() == 1)return;
-            currentProcess.setPriority(currentProcess.getPriority()-1);
+            if(currentProcess.getPriority() != 1d)
+                currentProcess.setPriority(currentProcess.getPriority());
         }
 
         nextProcess = controller.getIMemory().getHighestPriorityProcess();
 
-        if(nextProcess==null)return;
+        if(nextProcess == null)return;
         currentProcess = nextProcess;
         controller.addProcessToCPU(currentProcess, controller.getTimeOnCpu());
 
