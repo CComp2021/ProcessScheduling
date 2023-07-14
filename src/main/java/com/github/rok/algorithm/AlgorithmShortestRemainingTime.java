@@ -18,7 +18,7 @@ public class AlgorithmShortestRemainingTime implements AlgorithmInterface{
     public void execute() {
         Process shortestRemainingTime = controller.getIMemory().getLowestTimeProcess();
         if (shortestRemainingTime == null) return;
-        controller.addProcessToCPU(shortestRemainingTime, shortestRemainingTime.getWaitingTime()/2);
+        controller.addProcessToCPU(shortestRemainingTime, controller.getTimeOnCpu());
     }
 
     @Override
