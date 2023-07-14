@@ -3,43 +3,38 @@ package com.github.rok.algorithm;
 import com.github.rok.os.Process;
 import com.github.rok.interfaces.IMainController;
 import com.github.rok.interfaces.AlgorithmInterface;
-import com.github.rok.os.interfaces.ICPU;
-import com.github.rok.os.interfaces.IMemory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlgorithmGuaranteed implements AlgorithmInterface {
 
-    private final IMainController mainController;
-    private Process currentProcess = null;
+    private final IMainController controller;
 
     public AlgorithmGuaranteed(IMainController mainController) {
-        this.mainController = mainController;
+        this.controller = mainController;
     }
 
-    Process nextProcess;
+    Process lastProcess;
+    int lastProcessIndex = 0;
     public void execute() {
-        IMemory memory = mainController.getIMemory();
-        ICPU cpu = mainController.getICPU();
-
-        // Verifica se a CPU está livre
-        if (!cpu.isRunning()) {
-            // Obtém o processo com a maior prioridade na memória
-            if(currentProcess == null) {
-                currentProcess = memory.getHighestPriorityProcess();
-                if(currentProcess == null)return;
-                mainController.addProcessToCPU(currentProcess, mainController.getTimeOnCpu());
-            }else{
-                nextProcess = mainController.getIMemory().getHighestPriorityProcessBelow(currentProcess);
-                if (nextProcess == null)return;
-                currentProcess = nextProcess;
-                mainController.addProcessToCPU(currentProcess, currentProcess.getTimeOnCPU());
-
-            }
-
-            if(currentProcess == mainController.getIMemory().getLowestPriorityProcess()){
-                currentProcess=null;
-            }
-
+        if (lastProcess == null) {
+            lastProcess = controller.getIMemory().getHighestPriorityProcess();
+            lastProcessIndex = (int) lastProcess.getPriority();
+            controller.addProcessToCPU(lastProcess, controller.getTimeOnCpu());
+            return;
         }
+        lastProcess.setPriority(lastProcess.getPriority() + 0.001);
+
+        Process nextProcess = controller.getIMemory().getHighestPriorityProcessBelow(lastProcess,lastProcessIndex);
+        if (nextProcess == null) {
+            nextProcess = controller.getIMemory().getHighestPriorityProcess();
+        }
+        if (nextProcess == null) return;
+        lastProcess = nextProcess;
+        lastProcessIndex = (int) lastProcess.getPriority();
+        System.out.println(lastProcess.getPriority());
+        controller.addProcessToCPU(nextProcess, controller.getTimeOnCpu());
     }
 
     @Override

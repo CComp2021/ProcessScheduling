@@ -235,16 +235,16 @@ public class Memory implements IMemory {
         return highestPriority;
     }
     @Override
-    public @Nullable Process getHighestPriorityProcessBelow(Process targetProcess) {
+    public @Nullable Process getHighestPriorityProcessBelow(Process targetProcess, double targetPriority) {
         Process highestPriorityBelow = null;
-        int targetPriority = targetProcess.getPriority();
+
 
         for (Process process : processList) {
             if (process == nullProcess || process == targetProcess) {
                 continue;
             }
 
-            int processPriority = process.getPriority();
+            double processPriority = process.getPriority();
 
             if (processPriority <= targetPriority) {
 
