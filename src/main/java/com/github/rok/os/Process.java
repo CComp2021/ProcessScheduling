@@ -8,7 +8,7 @@ public class Process {
 	private double processTime; // Tempo de espera (varia de acordo com o algoritmo)
 	private double waitingTime; // Tempo total que o processo leva
 	private double timeScaling;
-	private int priority;
+	private double priority;
 
 	// Informações para os relatórios
 	private final long arrivalTime;
@@ -25,7 +25,7 @@ public class Process {
 		this.priority = priority;
 	}
 
-	public Process(int id, double waitingTime, double processTime, long arrivalTime, double timeScaling, double timeOnCPU, int priority) {
+	public Process(int id, double waitingTime, double processTime, long arrivalTime, double timeScaling, double timeOnCPU, double priority) {
 		this.id = id;
 		this.processTime = processTime;
 		this.waitingTime = waitingTime;
@@ -72,11 +72,11 @@ public class Process {
 		return timeOnCPU;
 	}
 
-	public int getPriority() {
+	public double getPriority() {
 		return priority;
 	}
 
-	public void setPriority(int priority) {
+	public void setPriority(double priority) {
 		this.priority = priority;
 	}
 
