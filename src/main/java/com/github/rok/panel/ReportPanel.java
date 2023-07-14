@@ -39,21 +39,25 @@ public class ReportPanel {
         throughput = new JSpinner(new SpinnerNumberModel(0, 0, 0, 1));
         throughput.setEditor(new JSpinner.NumberEditor(throughput, "#0/min"));
         throughput.setPreferredSize(new Dimension(70, 30));
+        throughput.setEnabled(false);
         throughput.setUI(new JNumberLabelUI());
 
         queue = new JSpinner(new SpinnerNumberModel(0, 0, 0, 1));
         queue.setEditor(new JSpinner.NumberEditor(queue, "#0.0/sec"));
         queue.setPreferredSize(new Dimension(70, 30));
+        queue.setEnabled(false);
         queue.setUI(new JNumberLabelUI());
 
         cpu = new JSpinner(new SpinnerNumberModel(0, 0, 0, 1));
         cpu.setEditor(new JSpinner.NumberEditor(cpu, "#%"));
         cpu.setPreferredSize(new Dimension(60, 30));
+        cpu.setEnabled(false);
         cpu.setUI(new JNumberLabelUI());
 
         returnProcess = new JSpinner(new SpinnerNumberModel(0, 0, 0, 1));
         returnProcess.setEditor(new JSpinner.NumberEditor(returnProcess, "#0.0/sec"));
         returnProcess.setPreferredSize(new Dimension(70, 30));
+        returnProcess.setEnabled(false);
         returnProcess.setUI(new JNumberLabelUI());
 
         JLabel throughtputLabel = new JLabel("T. de Vazão ");
