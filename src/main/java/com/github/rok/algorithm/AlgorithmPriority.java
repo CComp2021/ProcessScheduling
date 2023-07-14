@@ -26,7 +26,7 @@ public class AlgorithmPriority implements AlgorithmInterface {
 
         if(nextProcess == null)return;
         currentProcess = nextProcess;
-        controller.addProcessToCPU(currentProcess, controller.getTimeOnCpu());
+        controller.addProcessToCPU(currentProcess, currentProcess.getWaitingTime());
 
     }
 
