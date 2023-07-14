@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Memory implements IMemory {
 
-    private int MEMORY_SIZE = 10;
+    public int MEMORY_SIZE = 10;
 
     public ArrayList<Process> processList = new ArrayList<>(MEMORY_SIZE);
     private static final Map<Process, Long> endedProcesses = new HashMap<>();
@@ -41,6 +41,11 @@ public class Memory implements IMemory {
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         Thread thread = new Thread(this::generate);
         executorService.scheduleAtFixedRate(thread, 0, 10, TimeUnit.MILLISECONDS);
+        regenerateMemoryValues();
+    }
+
+    public void regenerateMemoryValues() {
+        processList = new ArrayList<>(MEMORY_SIZE);
         for (int i = 0; i < MEMORY_SIZE; i++) {
             processList.add(nullProcess);
         }
@@ -87,7 +92,7 @@ public class Memory implements IMemory {
     }
 
     public void addProcessToMemory(double waitingTime, int priority) {
-        if (getNextEmptySlot() == -1) return; // TODO: tratar erro de memória cheia
+        if (getNextEmptySlot() == -1) return;
         Process process = createProcess(waitingTime, priority);
         controller.memoryNewProcessTick(process);
         processList.set(getNextEmptySlot(), process);

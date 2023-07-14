@@ -148,7 +148,7 @@ public class MainPanel implements IController, IMainController {
         frame.updateCenterBar(value, text);
     }
 
-    private void updateMemoryChart() {
+    public void updateMemoryChart() {
         chartsFrame.updateMemoryChart();
     }
 

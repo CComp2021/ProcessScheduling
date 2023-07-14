@@ -1,6 +1,7 @@
 package com.github.rok.panel;
 
 import com.github.rok.MainPanel;
+import com.github.rok.os.Memory;
 import com.github.rok.utils.TimeUtils;
 
 import javax.swing.*;
@@ -45,15 +46,27 @@ public class ButtonsControlFrame {
 		plus.setFont(new Font("Arial", Font.PLAIN, 20));
 		plus.setPreferredSize(new Dimension(50, 50));
 		plus.setToolTipText("Aumenta a velocidade de geração de processos");
-		plus.setVisible(false);
-		plus.addActionListener(e -> addValueToDelay(-1, main, mainFrame));
+		plus.addActionListener(e -> {
+			if (pause.isVisible()) {
+				addValueToDelay(-1, main, mainFrame);
+				return;
+			}
+			addValueToMemory(1, main, mainFrame);
+			main.updateMemoryChart();
+		});
 
 		minus = new JButton("-");
 		minus.setFont(new Font("Arial", Font.PLAIN, 20));
 		minus.setPreferredSize(new Dimension(50, 50));
 		minus.setToolTipText("Diminui a velocidade de geração de processos");
-		minus.setVisible(false);
-		minus.addActionListener(e -> addValueToDelay(1, main, mainFrame));
+		minus.addActionListener(e -> {
+			if (pause.isVisible()) {
+				addValueToDelay(1, main, mainFrame);
+				return;
+			}
+			addValueToMemory(-1, main, mainFrame);
+			main.updateMemoryChart();
+		});
 
 		startSim.addActionListener(e -> {
 			flipSimulation(mainFrame, main.isRunning());
@@ -79,6 +92,15 @@ public class ButtonsControlFrame {
 		if ((generationSpeed / 100 > 1 && val == -1) || (generationSpeed / 100 < 99 && val == 1)) {
 			processDelay.setValue((((double)processDelay.getValue()) + val));
 			main.getMemory().setGenerationSpeed((int) (((double)processDelay.getValue()) * 100));
+		}
+	}
+
+	private void addValueToMemory(int val, MainPanel main, Frame mainFrame) {
+		int memory = main.getMemory().MEMORY_SIZE;
+		if ((memory > 10 && val == -1) || (memory < 30 && val == 1)) {
+			main.getMemory().MEMORY_SIZE = (memory + val);
+			System.out.println(main.getMemory().MEMORY_SIZE);
+			main.getMemory().regenerateMemoryValues();
 		}
 	}
 
@@ -111,8 +133,6 @@ public class ButtonsControlFrame {
 	}
 	public void setRunning(boolean running, Frame frame) {
 		pause.setVisible(running);
-		plus.setVisible(running);
-		minus.setVisible(running);
 		timeLabel.setVisible(running);
 
 		pauseButton(main, pause, running);
