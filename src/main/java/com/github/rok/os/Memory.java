@@ -18,7 +18,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class Memory implements IMemory {
 
-    public ArrayList<Process> processList = new ArrayList<>(10);
+    private int MEMORY_SIZE = 10;
+
+    public ArrayList<Process> processList = new ArrayList<>(MEMORY_SIZE);
     private static final Map<Process, Long> endedProcesses = new HashMap<>();
 
     // Um placeholder para preencher o gráfico
@@ -39,7 +41,7 @@ public class Memory implements IMemory {
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         Thread thread = new Thread(this::generate);
         executorService.scheduleAtFixedRate(thread, 0, 10, TimeUnit.MILLISECONDS);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < MEMORY_SIZE; i++) {
             processList.add(nullProcess);
         }
     }
@@ -68,7 +70,7 @@ public class Memory implements IMemory {
         int lastEmpty = 0;
         while (processList.get(lastEmpty) != nullProcess) {
             lastEmpty++;
-            if (lastEmpty == 10)
+            if (lastEmpty == MEMORY_SIZE)
                 return -1;
         }
         return lastEmpty;
@@ -116,7 +118,7 @@ public class Memory implements IMemory {
                     }
                 }
                 removedMemory = true;
-                processList.set(9, nullProcess);
+                processList.set(MEMORY_SIZE-1, nullProcess);
                 return;
             }
         }
@@ -287,7 +289,7 @@ public class Memory implements IMemory {
         int count = 0;
         while (processList.get(count) == nullProcess) {
             count++;
-            if (count == 10)
+            if (count == MEMORY_SIZE)
                 return true;
         }
         return false;

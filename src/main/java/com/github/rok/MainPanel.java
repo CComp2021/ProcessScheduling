@@ -118,7 +118,8 @@ public class MainPanel implements IController, IMainController {
         cpu.setScalingDelay(frame.getComponentDouble("scaling_delay"));
         cpuSpeed = frame.getComponentDouble("cpu_speed");
         cpu.setProcessSpeed(cpuSpeed);
-        algorithm = Main.getAlgorithm((String) ((JComboBox<?>) frame.getComponent("algorithm")).getSelectedItem());
+        String algorithmString = (String) ((JComboBox<?>) frame.getComponent("algorithm")).getSelectedItem();
+        algorithm = Main.getAlgorithm(algorithmString);
 
         // Counter
         minutes = frame.getComponentInt("simulation_min");
@@ -126,8 +127,13 @@ public class MainPanel implements IController, IMainController {
 
         // Properties
         processOnCPU = frame.getComponentDouble("cpu_running_time");
-        priorMax = frame.getComponentInt("prior_max");
-        priorMin = frame.getComponentInt("prior_min");
+        if (algorithmString.equals("Priority") || algorithmString.equals("Guaranteed")) {
+            priorMax = frame.getComponentInt("prior_max");
+            priorMin = frame.getComponentInt("prior_min");
+        } else {
+            priorMax = 0;
+            priorMin = 0;
+        }
     }
 
     private void updateMemoryBar(int value) {
